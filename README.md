@@ -1,7 +1,6 @@
 # Online Quiz Application
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/vamsi-31/Online-QuizApplication/maven.yml?branch=main)](https://github.com/vamsi-31/Online-QuizApplication/actions/workflows/maven.yml)
-[![Code Coverage](https://img.shields.io/codecov/c/github/vamsi-31/Online-QuizApplication)](https://app.codecov.io/gh/vamsi-31/Online-QuizApplication)
+
 [![License](https://img.shields.io/github/license/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/blob/main/LICENSE)
 [![GitHub Issues](https://img.shields.io/github/issues/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/pulls/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/pulls)
