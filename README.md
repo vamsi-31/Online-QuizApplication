@@ -1,7 +1,7 @@
 # Online Quiz Application
 
 
-[![License](https://img.shields.io/github/license/vamsi-31/Online-QuizApplication)](https://https://github.com/vamsi-31/Online-QuizApplication/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/vamsi-31/Online-QuizApplication)]([https://https://github.com/vamsi-31/Online-QuizApplication/blob/main/LICENSE](https://github.com/vamsi-31/Online-QuizApplication/blob/main/LICENSE))
 [![GitHub Issues](https://img.shields.io/github/issues/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/pulls/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/pulls)
 
