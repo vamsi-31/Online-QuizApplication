@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+@Service
 public class QuizServiceImpl implements QuizService {
     private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
     private final QuizDAO quizDAO;
-
+    @Autowired
     public QuizServiceImpl(QuizDAO quizDAO) {
         logger.info("QuizServiceImpl initialized");
         this.quizDAO = quizDAO;

@@ -3,7 +3,8 @@ package com.onlinequiz.dao.impl;
 import com.onlinequiz.dao.UserDAO;
 import com.onlinequiz.models.User;
 import java.util.*;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public class UserDAOImpl implements UserDAO {
     private final Map<String, User> users = new HashMap<>();
 
