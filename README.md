@@ -186,7 +186,6 @@ Implement your changes and write appropriate unit tests.
 
 Submit a pull request with a clear description of your changes.
 
-## License
 
 ## License
 
