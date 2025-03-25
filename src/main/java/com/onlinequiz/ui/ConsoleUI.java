@@ -16,19 +16,25 @@ import java.util.Optional;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import java.util.stream.IntStream;
+@Component
 public class ConsoleUI {
     private final QuizService quizService;
     private final UserService userService;
     private final QuestionService questionService;
     private final Scanner scanner;
-    private User currentUser;
     private static final Logger logger = LoggerFactory.getLogger(ConsoleUI.class);
+    private User currentUser;
 
+    @Autowired
     public ConsoleUI(QuizService quizService, UserService userService, QuestionService questionService) {
         this.quizService = quizService;
         this.userService = userService;
         this.questionService = questionService;
         this.scanner = new Scanner(System.in);
+        logger.info("ConsoleUI initialized");
     }
 
     public void start() {
@@ -145,7 +151,7 @@ public class ConsoleUI {
 
         switch (choice) {
             case 1:
-                takeQuiz();
+                takeQuiz();//Should replace takeQuiz with more apporipate
                 break;
             case 2:
                 viewQuizResults();
@@ -208,11 +214,12 @@ public class ConsoleUI {
         System.out.print("Enter question title: ");
         String title = scanner.nextLine();
 
-        List<String> options = new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            System.out.print("Enter option " + i + ": ");
-            options.add(scanner.nextLine());
-        }
+        List<String> options = IntStream.rangeClosed(1, 4)
+                .mapToObj(i -> {
+                    System.out.print("Enter option " + i + ": ");
+                    return scanner.nextLine();
+                })
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
         System.out.print("Enter the index of the correct option (1-4): ");
         int correctOptionIndex = Integer.parseInt(scanner.nextLine()) - 1;
@@ -243,6 +250,7 @@ public class ConsoleUI {
     }
 
     private void takeQuiz() {
+        logger.info("User Access to quiz by Access Code");
         System.out.print("Enter quiz access code: ");
         String accessCode = scanner.nextLine();
 
@@ -273,7 +281,7 @@ public class ConsoleUI {
     }
 
     private void viewQuizResults() {
-        System.out.println("Quiz results viewing is not implemented in this version.");
+        System.out.println("Pending task in this version will be implemented in next .version update.");
     }
 
     private void logout() {

@@ -3,7 +3,8 @@ package com.onlinequiz.dao.impl;
 import com.onlinequiz.dao.QuestionDAO;
 import com.onlinequiz.models.Question;
 import java.util.*;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public class QuestionDAOImpl implements QuestionDAO {
     private final Map<String, Question> questions = new HashMap<>();
 
