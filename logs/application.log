@@ -1,0 +1,52 @@
+15:00:07.303 [main] INFO  com.onlinequiz.Main - Starting Main using Java 17.0.12 with PID 48808 (C:\Users\kandikondahmsrvamsi_\Desktop\mygithub\mini_project-main\target\classes started by kandikondahmsrvamsi_ in C:\Users\kandikondahmsrvamsi_\Desktop\mygithub\mini_project-main)
+15:00:07.308 [main] INFO  com.onlinequiz.Main - No active profile set, falling back to 1 default profile: "default"
+15:00:08.333 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+15:00:08.341 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+15:00:08.346 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+15:00:08.346 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.30]
+15:00:08.408 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+15:00:08.412 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1046 ms
+15:00:08.486 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:00:08.493 [main] INFO  com.onlinequiz.ui.ConsoleUI - ConsoleUI initialized
+15:00:08.786 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+15:00:08.812 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+15:00:08.821 [main] INFO  com.onlinequiz.Main - Started Main in 1.857 seconds (process running for 2.365)
+15:00:08.827 [main] INFO  com.onlinequiz.Main - Starting Online Quiz Application
+15:00:08.828 [main] INFO  com.onlinequiz.Main - Running in API mode
+15:01:48.825 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.828 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: username
+15:01:48.832 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.832 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: username
+15:01:48.835 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.837 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.844 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.848 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.855 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.857 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: testuser
+15:01:48.860 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.862 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.863 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.864 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: existinguser
+15:01:48.865 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.867 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.871 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.872 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: 
+15:01:48.875 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.878 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.882 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.885 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:01:48.888 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:02:06.521 [main] INFO  com.onlinequiz.Main - Starting Main using Java 17.0.12 with PID 30888 (C:\Users\kandikondahmsrvamsi_\Desktop\mygithub\mini_project-main\target\OnlineQuizManagement-1.0-SNAPSHOT.jar started by kandikondahmsrvamsi_ in C:\Users\kandikondahmsrvamsi_\Desktop\mygithub\mini_project-main)
+15:02:06.523 [main] INFO  com.onlinequiz.Main - No active profile set, falling back to 1 default profile: "default"
+15:02:07.174 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+15:02:07.189 [main] INFO  com.onlinequiz.ui.ConsoleUI - ConsoleUI initialized
+15:02:07.570 [main] INFO  com.onlinequiz.Main - Started Main in 1.171 seconds (process running for 1.439)
+15:02:07.573 [main] INFO  com.onlinequiz.Main - Starting Online Quiz Application
+15:02:07.574 [main] INFO  com.onlinequiz.Main - Running in console mode
+15:02:07.574 [main] INFO  com.onlinequiz.ui.ConsoleUI - Starting ConsoleUI
+15:02:07.574 [main] INFO  com.onlinequiz.ui.ConsoleUI - 
+===== Login Menu =====
+15:02:07.575 [main] INFO  com.onlinequiz.ui.ConsoleUI - 1. Login
+15:02:07.575 [main] INFO  com.onlinequiz.ui.ConsoleUI - 2. Register
+15:02:07.576 [main] INFO  com.onlinequiz.ui.ConsoleUI - 3. Exit
+15:02:07.576 [main] INFO  com.onlinequiz.ui.ConsoleUI - Choose an option: 
