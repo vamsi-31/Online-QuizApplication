@@ -160,7 +160,7 @@ The project follows a layered architecture:
 
 
 
-*   **Configuration Layer:** (config/) Configures the Spring beans and dependency injection. **This is new with the Spring Core migration.**
+*   **Configuration Layer:** (config/) Configures the Spring beans and dependency injection. **This is new with the Spring Boot migration.**
     
 *   **DAO Layer:** (dao/, dao/impl/) Provides interfaces and implementations for data access operations. Data is currently stored in-memory using HashMaps. In a real-world application, this would be replaced with a database integration.
     
