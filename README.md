@@ -184,8 +184,6 @@ The project follows a layered architecture, enhanced by Spring Boot:
 └── 📄 README.md 📜 This File
 
 
-
-
 *   **Main Class:** (`Main.java`) The application's entry point, annotated with `@SpringBootApplication`. Configures a `CommandLineRunner` to conditionally start the `ConsoleUI`.
 *   **Controller Layer:** (`controllers/`) Contains classes annotated with `@RestController` that handle incoming HTTP requests for the REST API (e.g., `UserController`, `QuestionController`). **This layer was added for the Spring Boot web capabilities.**
 *   **Configuration Layer:** (`config/`) Contains classes annotated with `@Configuration` that explicitly define Spring beans using `@Bean` methods (e.g., `AppConfig`).
@@ -197,6 +195,25 @@ The project follows a layered architecture, enhanced by Spring Boot:
 *   **UI Layer:** (`ui/`) Contains the `ConsoleUI` class (annotated with `@Component`), responsible for managing the command-line user interface interactions.
 *   **Resources:** (`src/main/resources/`) Contains external configuration files like `logback.xml` (for logging) and potentially `application.properties` (for Spring Boot settings).
 *   **Tests:** (`src/test/java/`) Contains unit tests (using JUnit 5 and Mockito, often via `spring-boot-starter-test`) for verifying the functionality of DAO, Service, and potentially Controller layers.
+=======
+*   **Configuration Layer:** (config/) Configures the Spring beans and dependency injection. **This is new with the Spring Boot migration.**
+    
+*   **DAO Layer:** (dao/, dao/impl/) Provides interfaces and implementations for data access operations. Data is currently stored in-memory using HashMaps. In a real-world application, this would be replaced with a database integration.
+    
+*   **Exception Layer:** (exception/) Defines custom exception classes for application-specific error handling.
+    
+*   **Model Layer:** (models/) Contains the data model classes (User, Quiz, Question).
+    
+*   **Service Layer:** (services/, services/impl/) Defines the business logic, orchestrating data access and enforcing business rules.
+    
+*   **UI Layer:** (ui/) Contains the ConsoleUI class, managing the command-line interface.
+    
+*   **Main Class:** (Main.java) The application's entry point.
+    
+*   **Resources:** (logback.xml) Configures the application's logging behavior.
+    
+*   **Tests:** (src/test/java) Contains JUnit tests for DAO and service implementations.
+
 
 ## Testing
 
