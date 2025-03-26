@@ -38,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean deleteUser(String id) {
+    public boolean isDeleteUser(String id) {
         return users.remove(id) != null;
     }
 

@@ -4,48 +4,35 @@ import com.onlinequiz.dao.QuestionDAO;
 import com.onlinequiz.exception.QuestionException;
 import com.onlinequiz.models.Question;
 import com.onlinequiz.services.QuestionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import static com.onlinequiz.constants.Constants.*;
+
 @Service
 public class QuestionServiceImpl implements QuestionService {
-    private static final Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
+
     private final QuestionDAO questionDAO;
-    @Autowired
+
     public QuestionServiceImpl(QuestionDAO questionDAO) {
-        logger.info("QuestionServiceImpl initialized");
         this.questionDAO = questionDAO;
     }
 
     @Override
-    public Question createQuestion(Question question) {
-        logger.info("Creating question: {}", question.getTitle());
-        if (question == null) {
-            throw new QuestionException("Question cannot be null");
-        }
-        if (question.getTitle() == null || question.getTitle().trim().isEmpty()) {
-            throw new QuestionException("Question title cannot be empty");
-        }
-        if (question.getOptions() == null || question.getOptions().size() < 2) {
-            throw new QuestionException("Question must have at least two options");
-        }
-        if (question.getCorrectOptionIndex() < 0 || question.getCorrectOptionIndex() >= question.getOptions().size()) {
-            throw new QuestionException("Invalid correct option index");
-        }
-
-        question.setId(UUID.randomUUID().toString());
+    public Question createQuestion(String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks) {
+        validateQuestionInput(title, options, correctOptionIndex, difficulty, topics, marks);
+        Question question = new Question(UUID.randomUUID().toString(), title, options, correctOptionIndex, difficulty, topics, marks);
         return questionDAO.createQuestion(question);
     }
+
 
     @Override
     public Optional<Question> getQuestionById(String id) {
         if (id == null || id.trim().isEmpty()) {
-            throw new QuestionException("Question ID cannot be empty");
+            throw new QuestionException(ERROR_EMPTY_QUESTION_ID);
         }
         return questionDAO.getQuestionById(id);
     }
@@ -57,20 +44,50 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question updateQuestion(Question question) {
-        if (question == null) {
-            throw new QuestionException("Question cannot be null");
+        if (question == null || question.getId() == null || question.getId().trim().isEmpty()) {
+            throw new QuestionException(ERROR_INVALID_QUESTION_ID);
         }
-        if (question.getId() == null || question.getId().trim().isEmpty()) {
-            throw new QuestionException("Question ID cannot be empty");
-        }
+        validateQuestion(question);
         return questionDAO.updateQuestion(question);
     }
 
     @Override
-    public boolean deleteQuestion(String id) {
+    public boolean isDeleteQuestion(String id) {
         if (id == null || id.trim().isEmpty()) {
-            throw new QuestionException("Question ID cannot be empty");
+            throw new QuestionException(ERROR_EMPTY_QUESTION_ID);
         }
-        return questionDAO.deleteQuestion(id);
+        return questionDAO.isDeleteQuestion(id);
+    }
+
+    private void validateQuestion(Question question) {
+        validateQuestionInput(question.getTitle(), question.getOptions(), question.getCorrectOptionIndex(),
+                question.getDifficulty(), question.getTopics(), question.getMarks());
+    }
+
+    private void validateQuestionInput(String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks) {
+        if (title == null || title.trim().isEmpty()) {
+            throw new QuestionException(ERROR_EMPTY_TITLE);
+        }
+        if (options == null || options.size() < 2) {
+            throw new QuestionException(ERROR_INVALID_OPTIONS);
+        }
+        if (correctOptionIndex < 0 || correctOptionIndex >= options.size()) {
+            throw new QuestionException(ERROR_INVALID_CORRECT_OPTIONS_INDEX);
+        }
+        if (!isValidDifficulty(difficulty)) {
+            throw new QuestionException(ERROR_INVALID_DIFFICULTY_LEVEL);
+        }
+        if (topics == null || topics.isEmpty()) {
+            throw new QuestionException(ERROR_INVALID_TOPICS);
+        }
+        if (marks <= 0) {
+            throw new QuestionException(ERROR_INVALID_MARKS);
+        }
+    }
+
+    private boolean isValidDifficulty(String difficulty) {
+        return difficulty != null && (difficulty.equalsIgnoreCase(DIFFICULTY_EASY) ||
+                difficulty.equalsIgnoreCase(DIFFICULTY_MEDIUM) ||
+                difficulty.equalsIgnoreCase(DIFFICULTY_HARD));
     }
 }

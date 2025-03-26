@@ -61,7 +61,7 @@ class QuizDAOImplTest {
     void testDeleteQuiz() {
         Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
         quizDAO.createQuiz(quiz);
-        boolean deleted = quizDAO.deleteQuiz("1");
+        boolean deleted = quizDAO.isDeleteQuiz("1");
         assertTrue(deleted);
         Optional<Quiz> deletedQuiz = quizDAO.getQuizById("1");
         assertFalse(deletedQuiz.isPresent());

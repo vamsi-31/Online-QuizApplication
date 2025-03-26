@@ -3,34 +3,44 @@ package com.onlinequiz.services.impl;
 import com.onlinequiz.dao.QuizDAO;
 import com.onlinequiz.models.Quiz;
 import com.onlinequiz.models.Question;
+import com.onlinequiz.services.QuestionService;
 import com.onlinequiz.services.QuizService;
 import com.onlinequiz.exception.QuizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.onlinequiz.constants.Constants.*;
+
 @Service
 public class QuizServiceImpl implements QuizService {
-    private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
     private final QuizDAO quizDAO;
+    private final QuestionService questionService;
     @Autowired
-    public QuizServiceImpl(QuizDAO quizDAO) {
-        logger.info("QuizServiceImpl initialized");
+    public QuizServiceImpl(QuizDAO quizDAO, QuestionService questionService) {
         this.quizDAO = quizDAO;
+        this.questionService = questionService;
     }
 
     @Override
-    public Quiz createQuiz(String title, List<Question> questions) {
-        logger.info("Creating quiz: {}", title);
-        if (title == null || title.trim().isEmpty()) {
-            throw new QuizException("Quiz title cannot be empty");
-        }
-        if (questions == null || questions.isEmpty()) {
-            throw new QuizException("Quiz must have at least one question");
+    public Quiz createQuiz(String title, Scanner scanner) {
+        List<Question> questions = new ArrayList<>();
+        while (true) {
+            System.out.print("Enter question ID to add to the quiz (or 'done' to finish): ");
+            String questionId = scanner.nextLine();
+            if (questionId.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            Optional<Question> questionOpt = questionService.getQuestionById(questionId);
+            if (questionOpt.isPresent()) {
+                questions.add(questionOpt.get());
+            } else {
+                System.out.println(ERROR_QUESTION_NOT_FOUND);
+            }
         }
 
         int totalMarks = questions.stream().mapToInt(Question::getMarks).sum();
@@ -39,10 +49,11 @@ public class QuizServiceImpl implements QuizService {
         return quizDAO.createQuiz(quiz);
     }
 
+
     @Override
     public Optional<Quiz> getQuizById(String id) {
         if (id == null || id.trim().isEmpty()) {
-            throw new QuizException("Quiz ID cannot be empty");
+            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
         }
         return quizDAO.getQuizById(id);
     }
@@ -55,26 +66,26 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz updateQuiz(Quiz quiz) {
         if (quiz == null) {
-            throw new QuizException("Quiz cannot be null");
+            throw new QuizException(ERROR_NULL_QUIZ_ID);
         }
         if (!quiz.isModifiable()) {
-            throw new QuizException("This quiz is no longer modifiable.");
+            throw new QuizException(ERROR_EMPTY_QUIZ_MODIFY);
         }
         return quizDAO.updateQuiz(quiz);
     }
 
     @Override
-    public boolean deleteQuiz(String id) {
+    public boolean isDeleteQuiz(String id) {
         if (id == null || id.trim().isEmpty()) {
-            throw new QuizException("Quiz ID cannot be empty");
+            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
         }
-        return quizDAO.deleteQuiz(id);
+        return quizDAO.isDeleteQuiz(id);
     }
 
     @Override
     public Optional<Quiz> getQuizByAccessCode(String accessCode) {
         if (accessCode == null || accessCode.trim().isEmpty()) {
-            throw new QuizException("Access code cannot be empty");
+            throw new QuizException(ERROR_EMPTY_ACCESS_CODE);
         }
         return quizDAO.getQuizByAccessCode(accessCode);
     }
@@ -82,7 +93,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public void lockQuiz(String id) {
         if (id == null || id.trim().isEmpty()) {
-            throw new QuizException("Quiz ID cannot be empty");
+            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
         }
         Optional<Quiz> quizOpt = quizDAO.getQuizById(id);
         if (quizOpt.isPresent()) {
@@ -90,7 +101,35 @@ public class QuizServiceImpl implements QuizService {
             quiz.setModifiable(false);
             quizDAO.updateQuiz(quiz);
         } else {
-            throw new QuizException("Quiz not found");
+            throw new QuizException(ERROR_QUIZ_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public int takeQuiz(String accessCode, Scanner scanner) {
+        Optional<Quiz> quizOpt = getQuizByAccessCode(accessCode);
+        if (quizOpt.isPresent()) {
+            Quiz quiz = quizOpt.get();
+            int score = 0;
+
+            for (Question question : quiz.getQuestions()) {
+                System.out.println(question.getTitle());
+                List<String> options = question.getOptions();
+                for (int i = 0; i < options.size(); i++) {
+                    System.out.println((i + 1) + ". " + options.get(i));
+                }
+
+                System.out.print("Enter your answer (1-" + options.size() + "): ");
+                int userAnswer = Integer.parseInt(scanner.nextLine()) - 1;
+
+                if (userAnswer == question.getCorrectOptionIndex()) {
+                    score += question.getMarks();
+                }
+            }
+
+            return score;
+        } else {
+            throw new QuizException(ERROR_INVALID_ACCESS_CODE);
         }
     }
 

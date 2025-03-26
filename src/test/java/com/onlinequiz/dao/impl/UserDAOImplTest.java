@@ -68,7 +68,7 @@ class UserDAOImplTest {
     void testDeleteUser() {
         User user = new User("1", "testuser", "password", "USER");
         userDAO.createUser(user);
-        boolean deleted = userDAO.deleteUser("1");
+        boolean deleted = userDAO.isDeleteUser("1");
         assertTrue(deleted);
         Optional<User> deletedUser = userDAO.getUserById("1");
         assertFalse(deletedUser.isPresent());

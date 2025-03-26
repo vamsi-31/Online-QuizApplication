@@ -60,7 +60,7 @@ class QuestionDAOImplTest {
     void testDeleteQuestion() {
         Question question = new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
         questionDAO.createQuestion(question);
-        boolean deleted = questionDAO.deleteQuestion("1");
+        boolean deleted = questionDAO.isDeleteQuestion("1");
         assertTrue(deleted);
         Optional<Question> deletedQuestion = questionDAO.getQuestionById("1");
         assertFalse(deletedQuestion.isPresent());

@@ -8,7 +8,8 @@ public class User {
     private String username;
     private String password;
     private String role; // "ADMIN" or "USER"
-
+    public User() {
+    }
     // Constructor
     public User(String id, String username, String password, String role) {
         this.id = id;
