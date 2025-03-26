@@ -45,7 +45,7 @@ public interface QuizDAO {
      * @param id The ID of the quiz to delete.
      * @return true if the quiz was successfully deleted, false otherwise.
      */
-    boolean deleteQuiz(String id);
+    boolean isDeleteQuiz(String id);
 
     /**
      * Retrieve a quiz by its access code.

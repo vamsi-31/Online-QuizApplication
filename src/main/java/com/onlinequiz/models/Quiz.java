@@ -14,6 +14,9 @@ public class Quiz {
     private boolean modifiable;
 
     // Constructor
+    public Quiz(){
+
+    }
     public Quiz(String id, String title, List<Question> questions, int totalMarks, String accessCode, boolean modifiable) {
         this.id = id;
         this.title = title;

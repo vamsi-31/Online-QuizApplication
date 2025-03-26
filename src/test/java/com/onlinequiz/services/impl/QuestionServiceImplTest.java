@@ -1,9 +1,8 @@
 package com.onlinequiz.services.impl;
 
 import com.onlinequiz.dao.QuestionDAO;
-import com.onlinequiz.models.Question;
-import com.onlinequiz.services.QuestionService;
 import com.onlinequiz.exception.QuestionException;
+import com.onlinequiz.models.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,7 +20,7 @@ class QuestionServiceImplTest {
     @Mock
     private QuestionDAO questionDAO;
 
-    private QuestionService questionService;
+    private QuestionServiceImpl questionService;
 
     @BeforeEach
     void setUp() {
@@ -30,77 +29,172 @@ class QuestionServiceImplTest {
     }
 
     @Test
-    void testCreateQuestion() {
-        Question question = new Question(null, "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
-        Question expectedQuestion = new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
+    void createQuestion_Success() {
+        // Arrange
+        String title = "Test Question";
+        List<String> options = Arrays.asList("A", "B", "C");
+        int correctOptionIndex = 1;
+        String difficulty = "Easy";
+        List<String> topics = Arrays.asList("Topic1");
+        int marks = 2;
 
-        when(questionDAO.createQuestion(any(Question.class))).thenReturn(expectedQuestion);
+        when(questionDAO.createQuestion(any(Question.class))).thenAnswer(i -> {
+            Question q = (Question) i.getArguments()[0];
+            assertNotNull(q.getId());
+            return q;
+        });
 
-        Question createdQuestion = questionService.createQuestion(question);
+        // Act
+        Question result = questionService.createQuestion(title, options, correctOptionIndex, difficulty, topics, marks);
 
-        assertNotNull(createdQuestion);
-        assertEquals("1", createdQuestion.getId());
+        // Assert
+        assertNotNull(result.getId());
+        assertEquals(title, result.getTitle());
+        assertEquals(options, result.getOptions());
+        assertEquals(correctOptionIndex, result.getCorrectOptionIndex());
+        assertEquals(difficulty, result.getDifficulty());
+        assertEquals(topics, result.getTopics());
+        assertEquals(marks, result.getMarks());
         verify(questionDAO, times(1)).createQuestion(any(Question.class));
     }
 
     @Test
-    void testCreateQuestionWithInvalidData() {
-        Question invalidQuestion = new Question(null, "", Arrays.asList("A"), 0, "EASY", Arrays.asList("Test"), 1);
-
-        assertThrows(QuestionException.class, () -> questionService.createQuestion(invalidQuestion));
+    void createQuestion_EmptyTitle_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1));
     }
 
     @Test
-    void testGetQuestionById() {
-        String questionId = "1";
-        Question expectedQuestion = new Question(questionId, "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
-
-        when(questionDAO.getQuestionById(questionId)).thenReturn(Optional.of(expectedQuestion));
-
-        Optional<Question> retrievedQuestion = questionService.getQuestionById(questionId);
-
-        assertTrue(retrievedQuestion.isPresent());
-        assertEquals(questionId, retrievedQuestion.get().getId());
-        verify(questionDAO, times(1)).getQuestionById(questionId);
+    void createQuestion_InsufficientOptions_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("Test Question", Arrays.asList("A"), 0, "Easy", Arrays.asList("Topic1"), 1));
     }
 
     @Test
-    void testGetAllQuestions() {
+    void createQuestion_InvalidCorrectOptionIndex_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("Test Question", Arrays.asList("A", "B"), 2, "Easy", Arrays.asList("Topic1"), 1));
+    }
+
+    @Test
+    void createQuestion_InvalidDifficulty_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("Test Question", Arrays.asList("A", "B", "C"), 1, "InvalidDifficulty", Arrays.asList("Topic1"), 2));
+    }
+    @Test
+    void createQuestion_NullQuestion_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion(null, null, 0, null, null, 0));
+    }
+
+    @Test
+    void getQuestionById_Success() {
+        // Arrange
+        String id = "question1";
+        Question expectedQuestion = new Question(id, "Test Question", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1);
+        when(questionDAO.getQuestionById(id)).thenReturn(Optional.of(expectedQuestion));
+
+        // Act
+        Optional<Question> result = questionService.getQuestionById(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedQuestion, result.get());
+        verify(questionDAO, times(1)).getQuestionById(id);
+    }
+
+    @Test
+    void getQuestionById_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.getQuestionById(""));
+    }
+
+    @Test
+    void getAllQuestions_Success() {
+        // Arrange
         List<Question> expectedQuestions = Arrays.asList(
-                new Question("1", "Question 1", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1),
-                new Question("2", "Question 2", Arrays.asList("A", "B", "C"), 1, "MEDIUM", Arrays.asList("Test"), 2)
+                new Question("1", "Q1", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1),
+                new Question("2", "Q2", Arrays.asList("A", "B", "C"), 1, "Medium", Arrays.asList("Topic2"), 2)
         );
-
         when(questionDAO.getAllQuestions()).thenReturn(expectedQuestions);
 
-        List<Question> retrievedQuestions = questionService.getAllQuestions();
+        // Act
+        List<Question> result = questionService.getAllQuestions();
 
-        assertEquals(2, retrievedQuestions.size());
+        // Assert
+        assertEquals(expectedQuestions, result);
         verify(questionDAO, times(1)).getAllQuestions();
     }
 
     @Test
-    void testUpdateQuestion() {
-        Question questionToUpdate = new Question("1", "Updated Question", Arrays.asList("A", "B", "C"), 1, "MEDIUM", Arrays.asList("Test"), 2);
+    void updateQuestion_Success() {
+        // Arrange
+        Question question = new Question("1", "Updated Question", Arrays.asList("A", "B", "C"), 2, "Hard", Arrays.asList("Topic3"), 3);
+        when(questionDAO.updateQuestion(question)).thenReturn(question);
 
-        when(questionDAO.updateQuestion(questionToUpdate)).thenReturn(questionToUpdate);
+        // Act
+        Question result = questionService.updateQuestion(question);
 
-        Question updatedQuestion = questionService.updateQuestion(questionToUpdate);
-
-        assertEquals("Updated Question", updatedQuestion.getTitle());
-        assertEquals("MEDIUM", updatedQuestion.getDifficulty());
-        verify(questionDAO, times(1)).updateQuestion(questionToUpdate);
+        // Assert
+        assertEquals(question, result);
+        verify(questionDAO, times(1)).updateQuestion(question);
     }
 
     @Test
-    void testDeleteQuestion() {
-        String questionId = "1";
+    void updateQuestion_NullQuestion_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.updateQuestion(null));
+    }
 
-        when(questionDAO.deleteQuestion(questionId)).thenReturn(true);
+    @Test
+    void updateQuestion_EmptyId_ThrowsException() {
+        // Arrange
+        Question question = new Question("", "Test Question", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1);
 
-        boolean deleted = questionService.deleteQuestion(questionId);
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.updateQuestion(question));
+    }
 
-        assertTrue(deleted);
-        verify(questionDAO, times(1)).deleteQuestion(questionId);
+    @Test
+    void updateQuestion_InvalidData_ThrowsException() {
+        // Arrange
+        Question question = new Question("1", "", Arrays.asList("A"), 0, "Easy", Arrays.asList("Topic1"), 1);
+
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.updateQuestion(question));
+    }
+
+    @Test
+    void deleteQuestion_Success() {
+        // Arrange
+        String id = "question1";
+        when(questionDAO.isDeleteQuestion(id)).thenReturn(true);
+
+        // Act
+        boolean result = questionService.isDeleteQuestion(id);
+
+        // Assert
+        assertTrue(result);
+        verify(questionDAO, times(1)).isDeleteQuestion(id);
+    }
+
+    @Test
+    void deleteQuestion_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.isDeleteQuestion(""));
+    }
+
+    @Test
+    void getQuestionById_QuestionNotFound_ReturnsEmptyOptional() {
+        // Arrange
+        String id = "nonexistent";
+        when(questionDAO.getQuestionById(id)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<Question> result = questionService.getQuestionById(id);
+
+        // Assert
+        assertFalse(result.isPresent());
+        verify(questionDAO, times(1)).getQuestionById(id);
     }
 }

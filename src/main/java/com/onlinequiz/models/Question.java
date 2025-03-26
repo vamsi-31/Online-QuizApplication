@@ -1,10 +1,15 @@
 package com.onlinequiz.models;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 /**
  * Represents a question in the quiz application.
  */
+@Data
+@NoArgsConstructor
 public class Question {
     private String id;
     private String title;
@@ -13,7 +18,6 @@ public class Question {
     private String difficulty;
     private List<String> topics;
     private int marks;
-
     // Constructor
     public Question(String id, String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks) {
         this.id = id;

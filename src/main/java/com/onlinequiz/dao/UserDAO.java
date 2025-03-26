@@ -53,7 +53,7 @@ public interface UserDAO {
      * @param id The ID of the user to delete.
      * @return true if the user was successfully deleted, false otherwise.
      */
-    boolean deleteUser(String id);
+    boolean isDeleteUser(String id);
 
     /**
      * Authenticate a user.

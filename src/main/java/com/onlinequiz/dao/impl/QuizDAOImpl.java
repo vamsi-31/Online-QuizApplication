@@ -31,7 +31,7 @@ public class QuizDAOImpl implements QuizDAO {
     }
 
     @Override
-    public boolean deleteQuiz(String id) {
+    public boolean isDeleteQuiz(String id) {
         return quizzes.remove(id) != null;
     }
 

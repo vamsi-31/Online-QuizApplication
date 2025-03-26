@@ -5,7 +5,7 @@ public class QuestionException extends RuntimeException {
         super(message);
     }
 
-//    public QuestionException(String message, Throwable cause) {
-//        super(message, cause);
-//    }
+    public QuestionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

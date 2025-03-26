@@ -1,0 +1,3130 @@
+================================================================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.onlinequiz</groupId>
+  <artifactId>OnlineQuizManagement</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.3.4</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer>
+                  <mainClass>com.onlinequiz.Main</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>4.5.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>byte-buddy</artifactId>
+          <groupId>net.bytebuddy</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>byte-buddy-agent</artifactId>
+          <groupId>net.bytebuddy</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>objenesis</artifactId>
+          <groupId>org.objenesis</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.11.0-M1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-platform-engine</artifactId>
+          <groupId>org.junit.platform</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-jupiter-api</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>apiguardian-api</artifactId>
+          <groupId>org.apiguardian</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>4.5.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-jupiter-api</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>3.3.4</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-test</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-boot-test-autoconfigure</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-path</artifactId>
+          <groupId>com.jayway.jsonpath</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jakarta.xml.bind-api</artifactId>
+          <groupId>jakarta.xml.bind</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-smart</artifactId>
+          <groupId>net.minidev</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>assertj-core</artifactId>
+          <groupId>org.assertj</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>awaitility</artifactId>
+          <groupId>org.awaitility</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hamcrest</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-jupiter</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsonassert</artifactId>
+          <groupId>org.skyscreamer</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-test</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlunit-core</artifactId>
+          <groupId>org.xmlunit</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.34</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <properties>
+    <maven.compiler.target>17</maven.compiler.target>
+    <slf4j.version>2.0.7</slf4j.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+</project>
+
+================================================================================
+File: pom.xml
+--------------------------------------------------------------------------------
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.onlinequiz</groupId>
+    <artifactId>OnlineQuizManagement</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4j.version>2.0.7</slf4j.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.8</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.11.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.1.13</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>3.3.4</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.3.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.onlinequiz.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+================================================================================
+File: src\main\java\com\onlinequiz\Main.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz;
+
+import com.onlinequiz.ui.ConsoleUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+
+    @Bean
+    public CommandLineRunner run(ConsoleUI consoleUI) {
+        return args -> {
+            logger.info("Starting Online Quiz Application");
+            if (args.length > 0 && args[0].equalsIgnoreCase("console")) {
+                logger.info("Running in console mode");
+                try {
+                    consoleUI.start();
+                } catch (Exception e) {
+                    logger.error("Fatal error in console mode: {}", e.getMessage(), e);
+                }
+            } else {
+                logger.info("Running in API mode");
+            }
+        };
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\config\AppConfig.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import com.onlinequiz.dao.QuestionDAO;
+import com.onlinequiz.dao.QuizDAO;
+import com.onlinequiz.dao.UserDAO;
+import com.onlinequiz.dao.impl.QuestionDAOImpl;
+import com.onlinequiz.dao.impl.QuizDAOImpl;
+import com.onlinequiz.dao.impl.UserDAOImpl;
+import com.onlinequiz.services.QuestionService;
+import com.onlinequiz.services.QuizService;
+import com.onlinequiz.services.UserService;
+import com.onlinequiz.services.impl.QuestionServiceImpl;
+import com.onlinequiz.services.impl.QuizServiceImpl;
+import com.onlinequiz.services.impl.UserServiceImpl;
+import com.onlinequiz.ui.ConsoleUI;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public QuestionDAO questionDAO() {
+        return new QuestionDAOImpl();
+    }
+
+    @Bean
+    public QuizDAO quizDAO() {
+        return new QuizDAOImpl();
+    }
+
+    @Bean
+    public UserDAO userDAO() {
+        return new UserDAOImpl();
+    }
+
+    @Bean
+    public QuestionService questionService(QuestionDAO questionDAO) {
+        return new QuestionServiceImpl(questionDAO);
+    }
+
+    @Bean
+    public QuizService quizService(QuizDAO quizDAO) {
+        return new QuizServiceImpl(quizDAO);
+    }
+
+    @Bean
+    public UserService userService(UserDAO userDAO) {
+        return new UserServiceImpl(userDAO);
+    }
+
+    @Bean
+    public ConsoleUI consoleUI(QuizService quizService, UserService userService, QuestionService questionService) {
+        return new ConsoleUI(quizService, userService, questionService);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\constants\Constants.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.constants;
+
+public class Constants {
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String DIFFICULTY_EASY = "EASY";
+    public static final String DIFFICULTY_MEDIUM = "MEDIUM";
+    public static final String DIFFICULTY_HARD = "HARD";
+    public static final int MIN_PASSWORD_LENGTH = 8;// .next verision update feauture
+    public static final int MAX_QUIZ_QUESTIONS = 50;// .next verision update feauture
+    public static final String INPUT_OPTION="Choose an option: ";
+    public static final String INVALID_OPTION="Invalid option. Please try again.";
+    public static final String INPUT_USERNAME="Enter username: ";
+    public static final String INPUT_PASSWORD="Enter password: ";
+    public static final String  ERROR_EMPTY_USERNAME="User Name cannot be empty.";
+    public static final String  ERROR_EMPTY_USER="User Name cannot be NULL.";
+    public static final String  ERROR_EMPTY_PASSWORD="Password cannot be empty.";
+    public static final String  ERROR_EMPTY_QUIZ_MODIFY="This quiz is no longer modifiable.";
+    public static final String  ERROR_EMPTY_QUIZ_ID="Quiz Id cannot be empty.";
+    public static final String  ERROR_EMPTY_TITLE="Question title cannot be null or empty";
+    public static final String  ERROR_INVALID_OPTIONS="Question must have at least two options";
+    public static final String  ERROR_INVALID_TOPICS="Topics cannot be null or empty";
+    public static final String  ERROR_INVALID_MARKS="Marks must be greater than zero";
+    public static final String  ERROR_INVALID_CORRECT_OPTIONS_INDEX="Invalid correct option index";
+    public static final String  ERROR_EMPTY_QUESTION_ID="Question Id cannot be empty or null.";
+    public static final String  ERROR_INVALID_QUESTION_ID="Question Id is not valid.";
+    public static final String  ERROR_INVALID_DIFFICULTY_LEVEL="Difficulty is not valid.";
+    public static final String  ERROR_NULL_QUIZ_ID="Quiz Id cannot be Null";
+    public static final String  ERROR_EMPTY_ACCESS_CODE="Access code cannot be Empty";
+    public static final String ERROR_INVALID_CREDENTIALS = "Invalid username or password";//
+    public static final String ERROR_EMPTY_USER_ID = "User ID cannot be empty";
+    public static final String ERROR_USER_EXISTS = "Username already exists";
+    public static final String ERROR_INVALID_ROLE = "Invalid role. Must be either ADMIN or USER";
+    public static final String ERROR_QUIZ_NOT_FOUND = "Quiz not found";//
+    public static final String ERROR_QUESTION_NOT_FOUND = "Question not found";
+    public static final String ERROR_INVALID_ACCESS_CODE = "Quiz not found Check the access code";
+
+private Constants() {
+
+}}
+
+================================================================================
+File: src\main\java\com\onlinequiz\controllers\QuestionController.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.controllers;
+
+import com.onlinequiz.models.Question;
+import com.onlinequiz.services.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/questions")
+public class QuestionController {
+
+    private final QuestionService questionService;
+
+    @Autowired
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
+        Question createdQuestion = questionService.createQuestion(
+                question.getTitle(),
+                question.getOptions(),
+                question.getCorrectOptionIndex(),
+                question.getDifficulty(),
+                question.getTopics(),
+                question.getMarks()
+        );
+        return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Question> getQuestionById(@PathVariable String id) {
+        Optional<Question> question = questionService.getQuestionById(id);
+        return question.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        List<Question> questions = questionService.getAllQuestions();
+        return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Question> updateQuestion(@PathVariable String id, @RequestBody Question question) {
+        question.setId(id);
+        Question updatedQuestion = questionService.updateQuestion(question);
+        return new ResponseEntity<>(updatedQuestion, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable String id) {
+        boolean deleted = questionService.isDeleteQuestion(id);
+        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\controllers\UserController.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.controllers;
+
+import com.onlinequiz.models.User;
+import com.onlinequiz.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user.getUsername(), user.getPassword(), user.getRole());
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
+        user.setId(id);
+        User updatedUser = userService.updateUser(user);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        boolean deleted = userService.isDeleteUser(id);
+        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        User loggedInUser = userService.login(user.getUsername(), user.getPassword());
+        return loggedInUser != null ? new ResponseEntity<>(loggedInUser, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody User user) {
+        User registeredUser = userService.register(user.getUsername(), user.getPassword(), user.getRole());
+        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\dao\QuestionDAO.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao;
+
+import com.onlinequiz.models.Question;
+import java.util.List;
+import java.util.Optional;
+
+public interface QuestionDAO {
+    /**
+     * Create a new question in the data store.
+     *
+     * @param question The question to be created.
+     * @return The created question, potentially with a generated ID.
+     */
+    Question createQuestion(Question question);
+
+    /**
+     * Retrieve a question by its unique identifier.
+     *
+     * @param id The ID of the question to retrieve.
+     * @return An Optional containing the question if found, or empty if not found.
+     */
+    Optional<Question> getQuestionById(String id);
+
+    /**
+     * Retrieve all questions from the data store.
+     *
+     * @return A list of all questions.
+     */
+    List<Question> getAllQuestions();
+
+    /**
+     * Update an existing question in the data store.
+     *
+     * @param question The question with updated information.
+     * @return The updated question.
+     */
+    Question updateQuestion(Question question);
+
+    /**
+     * Delete a question from the data store by its ID.
+     *
+     * @param id The ID of the question to delete.
+     * @return true if the question was successfully deleted, false otherwise.
+     */
+    boolean isDeleteQuestion(String id);
+}
+================================================================================
+File: src\main\java\com\onlinequiz\dao\QuizDAO.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao;
+
+import com.onlinequiz.models.Quiz;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Data Access Object interface for Quiz-related operations.
+ */
+public interface QuizDAO {
+    /**
+     * Create a new quiz.
+     *
+     * @param quiz The quiz to be created.
+     * @return The created quiz with generated ID.
+     */
+    Quiz createQuiz(Quiz quiz);
+
+    /**
+     * Retrieve a quiz by its ID.
+     *
+     * @param id The ID of the quiz to retrieve.
+     * @return An Optional containing the quiz if found, or empty if not found.
+     */
+    Optional<Quiz> getQuizById(String id);
+
+    /**
+     * Retrieve all quizzes.
+     *
+     * @return A list of all quizzes.
+     */
+    List<Quiz> getAllQuizzes();
+
+    /**
+     * Update an existing quiz.
+     *
+     * @param quiz The quiz with updated information.
+     * @return The updated quiz.
+     */
+    Quiz updateQuiz(Quiz quiz);
+
+    /**
+     * Delete a quiz by its ID.
+     *
+     * @param id The ID of the quiz to delete.
+     * @return true if the quiz was successfully deleted, false otherwise.
+     */
+    boolean isDeleteQuiz(String id);
+
+    /**
+     * Retrieve a quiz by its access code.
+     *
+     * @param accessCode The access code of the quiz.
+     * @return An Optional containing the quiz if found, or empty if not found.
+     */
+    Optional<Quiz> getQuizByAccessCode(String accessCode);
+}
+================================================================================
+File: src\main\java\com\onlinequiz\dao\UserDAO.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao;
+
+import com.onlinequiz.models.User;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Data Access Object interface for User-related operations.
+ */
+public interface UserDAO {
+    /**
+     * Create a new user.
+     *
+     * @param user The user to be created.
+     * @return The created user with generated ID.
+     */
+    User createUser(User user);
+
+    /**
+     * Retrieve a user by their ID.
+     *
+     * @param id The ID of the user to retrieve.
+     * @return An Optional containing the user if found, or empty if not found.
+     */
+    Optional<User> getUserById(String id);
+
+    /**
+     * Retrieve a user by their username.
+     *
+     * @param username The username of the user to retrieve.
+     * @return An Optional containing the user if found, or empty if not found.
+     */
+    Optional<User> getUserByUsername(String username);
+
+    /**
+     * Retrieve all users.
+     *
+     * @return A list of all users.
+     */
+    List<User> getAllUsers();
+
+    /**
+     * Update an existing user.
+     *
+     * @param user The user with updated information.
+     * @return The updated user.
+     */
+    User updateUser(User user);
+
+    /**
+     * Delete a user by their ID.
+     *
+     * @param id The ID of the user to delete.
+     * @return true if the user was successfully deleted, false otherwise.
+     */
+    boolean isDeleteUser(String id);
+
+    /**
+     * Authenticate a user.
+     *
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @return An Optional containing the authenticated user if successful, or empty if authentication fails.
+     */
+    Optional<User> authenticateUser(String username, String password);
+}
+================================================================================
+File: src\main\java\com\onlinequiz\dao\impl\QuestionDAOImpl.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao.impl;
+
+import com.onlinequiz.dao.QuestionDAO;
+import com.onlinequiz.models.Question;
+import java.util.*;
+import org.springframework.stereotype.Repository;
+@Repository
+public class QuestionDAOImpl implements QuestionDAO {
+    private final Map<String, Question> questions = new HashMap<>();
+
+    @Override
+    public Question createQuestion(Question question) {
+        questions.put(question.getId(), question);
+        return question;
+    }
+
+    @Override
+    public Optional<Question> getQuestionById(String id) {
+        return Optional.ofNullable(questions.get(id));
+    }
+
+    @Override
+    public List<Question> getAllQuestions() {
+        return new ArrayList<>(questions.values());
+    }
+
+    @Override
+    public Question updateQuestion(Question question) {
+        questions.put(question.getId(), question);
+        return question;
+    }
+
+    @Override
+    public boolean isDeleteQuestion(String id) {
+        return questions.remove(id) != null;
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\dao\impl\QuizDAOImpl.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao.impl;
+
+import com.onlinequiz.dao.QuizDAO;
+import com.onlinequiz.models.Quiz;
+import java.util.*;
+import org.springframework.stereotype.Repository;
+@Repository
+public class QuizDAOImpl implements QuizDAO {
+    private final Map<String, Quiz> quizzes = new HashMap<>();
+
+    @Override
+    public Quiz createQuiz(Quiz quiz) {
+        quizzes.put(quiz.getId(), quiz);
+        return quiz;
+    }
+
+    @Override
+    public Optional<Quiz> getQuizById(String id) {
+        return Optional.ofNullable(quizzes.get(id));
+    }
+
+    @Override
+    public List<Quiz> getAllQuizzes() {
+        return new ArrayList<>(quizzes.values());
+    }
+
+    @Override
+    public Quiz updateQuiz(Quiz quiz) {
+        quizzes.put(quiz.getId(), quiz);
+        return quiz;
+    }
+
+    @Override
+    public boolean isDeleteQuiz(String id) {
+        return quizzes.remove(id) != null;
+    }
+
+    @Override
+    public Optional<Quiz> getQuizByAccessCode(String accessCode) {
+        return quizzes.values().stream()
+                .filter(quiz -> quiz.getAccessCode().equals(accessCode))
+                .findFirst();
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\dao\impl\UserDAOImpl.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao.impl;
+
+import com.onlinequiz.dao.UserDAO;
+import com.onlinequiz.models.User;
+import java.util.*;
+import org.springframework.stereotype.Repository;
+@Repository
+public class UserDAOImpl implements UserDAO {
+    private final Map<String, User> users = new HashMap<>();
+
+    @Override
+    public User createUser(User user) {
+        users.put(user.getId(), user);
+        return user;
+    }
+
+    @Override
+    public Optional<User> getUserById(String id) {
+        return Optional.ofNullable(users.get(id));
+    }
+
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+        return users.values().stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users.values());
+    }
+
+    @Override
+    public User updateUser(User user) {
+        users.put(user.getId(), user);
+        return user;
+    }
+
+    @Override
+    public boolean isDeleteUser(String id) {
+        return users.remove(id) != null;
+    }
+
+    @Override
+    public Optional<User> authenticateUser(String username, String password) {
+        return users.values().stream()
+                .filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
+                .findFirst();
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\exception\InvalidCredentialsException.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+public class InvalidCredentialsException extends RuntimeException {
+    public InvalidCredentialsException(String message) {
+        super(message);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\exception\InvalidRoleException.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+public class InvalidRoleException extends RuntimeException {
+    public InvalidRoleException(String message) {
+        super(message);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\exception\QuestionException.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+public class QuestionException extends RuntimeException {
+    public QuestionException(String message) {
+        super(message);
+    }
+
+    public QuestionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\exception\QuizException.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+public class QuizException extends RuntimeException {
+    public QuizException(String message) {
+        super(message);
+    }
+
+    public QuizException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\exception\UserAlreadyExistsException.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+public class UserAlreadyExistsException extends RuntimeException {
+    public UserAlreadyExistsException(String message) {
+        super(message);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\exception\UserException.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+public class UserException extends RuntimeException {
+    public UserException(String message) {
+        super(message);
+    }
+
+    public UserException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\models\Question.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.models;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+/**
+ * Represents a question in the quiz application.
+ */
+@Data
+@NoArgsConstructor
+public class Question {
+    private String id;
+    private String title;
+    private List<String> options;
+    private int correctOptionIndex;
+    private String difficulty;
+    private List<String> topics;
+    private int marks;
+    // Constructor
+    public Question(String id, String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks) {
+        this.id = id;
+        this.title = title;
+        this.options = options;
+        this.correctOptionIndex = correctOptionIndex;
+        this.difficulty = difficulty;
+        this.topics = topics;
+        this.marks = marks;
+    }
+
+    // Getters and setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public int getCorrectOptionIndex() {
+        return correctOptionIndex;
+    }
+
+    public void setCorrectOptionIndex(int correctOptionIndex) {
+        this.correctOptionIndex = correctOptionIndex;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
+    }
+
+    public int getMarks() {
+        return marks;
+    }
+
+    public void setMarks(int marks) {
+        this.marks = marks;
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\models\Quiz.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.models;
+
+import java.util.List;
+
+/**
+ * Represents a quiz in the application.
+ */
+public class Quiz {
+    private String id;
+    private String title;
+    private List<Question> questions;
+    private int totalMarks;
+    private String accessCode;
+    private boolean modifiable;
+
+    // Constructor
+    public Quiz(){
+
+    }
+    public Quiz(String id, String title, List<Question> questions, int totalMarks, String accessCode, boolean modifiable) {
+        this.id = id;
+        this.title = title;
+        this.questions = questions;
+        this.totalMarks = totalMarks;
+        this.accessCode = accessCode;
+        this.modifiable = modifiable;
+    }
+
+    // Getters and setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public int getTotalMarks() {
+        return totalMarks;
+    }
+
+    public void setTotalMarks(int totalMarks) {
+        this.totalMarks = totalMarks;
+    }
+
+    public String getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(String accessCode) {
+        this.accessCode = accessCode;
+    }
+
+    public boolean isModifiable() {
+        return modifiable;
+    }
+
+    public void setModifiable(boolean modifiable) {
+        this.modifiable = modifiable;
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\models\User.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.models;
+
+/**
+ * Represents a user in the quiz application.
+ */
+public class User {
+    private String id;
+    private String username;
+    private String password;
+    private String role; // "ADMIN" or "USER"
+    public User() {
+    }
+    // Constructor
+    public User(String id, String username, String password, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    // Getters and setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\services\QuestionService.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services;
+
+import com.onlinequiz.models.Question;
+import java.util.List;
+import java.util.Optional;
+
+public interface QuestionService {
+    Question createQuestion(String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks);
+    Optional<Question> getQuestionById(String id);
+    List<Question> getAllQuestions();
+    Question updateQuestion(Question question);
+    boolean isDeleteQuestion(String id);
+}
+================================================================================
+File: src\main\java\com\onlinequiz\services\QuizService.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services;
+import com.onlinequiz.models.Quiz;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+public interface QuizService {
+    Quiz createQuiz(String title, Scanner scanner);
+    Optional<Quiz> getQuizById(String id);
+    List<Quiz> getAllQuizzes();
+    Quiz updateQuiz(Quiz quiz);
+    boolean isDeleteQuiz(String id);
+    Optional<Quiz> getQuizByAccessCode(String accessCode);
+    void lockQuiz(String id);
+    int takeQuiz(String accessCode, Scanner scanner);
+}
+================================================================================
+File: src\main\java\com\onlinequiz\services\UserService.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services;
+
+import com.onlinequiz.models.User;
+import java.util.List;
+import java.util.Optional;
+
+public interface UserService {
+    User createUser(String username, String password, String role);
+    Optional<User> getUserById(String id);
+    Optional<User> getUserByUsername(String username);
+    List<User> getAllUsers();
+    User updateUser(User user);
+    boolean isDeleteUser(String id);
+    User login(String username, String password);
+    User register(String username, String password, String role);
+}
+================================================================================
+File: src\main\java\com\onlinequiz\services\impl\QuestionServiceImpl.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services.impl;
+
+import com.onlinequiz.dao.QuestionDAO;
+import com.onlinequiz.exception.QuestionException;
+import com.onlinequiz.models.Question;
+import com.onlinequiz.services.QuestionService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static com.onlinequiz.constants.Constants.*;
+
+@Service
+public class QuestionServiceImpl implements QuestionService {
+
+    private final QuestionDAO questionDAO;
+
+    public QuestionServiceImpl(QuestionDAO questionDAO) {
+        this.questionDAO = questionDAO;
+    }
+
+    @Override
+    public Question createQuestion(String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks) {
+        validateQuestionInput(title, options, correctOptionIndex, difficulty, topics, marks);
+        Question question = new Question(UUID.randomUUID().toString(), title, options, correctOptionIndex, difficulty, topics, marks);
+        return questionDAO.createQuestion(question);
+    }
+
+
+    @Override
+    public Optional<Question> getQuestionById(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new QuestionException(ERROR_EMPTY_QUESTION_ID);
+        }
+        return questionDAO.getQuestionById(id);
+    }
+
+    @Override
+    public List<Question> getAllQuestions() {
+        return questionDAO.getAllQuestions();
+    }
+
+    @Override
+    public Question updateQuestion(Question question) {
+        if (question == null || question.getId() == null || question.getId().trim().isEmpty()) {
+            throw new QuestionException(ERROR_INVALID_QUESTION_ID);
+        }
+        validateQuestion(question);
+        return questionDAO.updateQuestion(question);
+    }
+
+    @Override
+    public boolean isDeleteQuestion(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new QuestionException(ERROR_EMPTY_QUESTION_ID);
+        }
+        return questionDAO.isDeleteQuestion(id);
+    }
+
+    private void validateQuestion(Question question) {
+        validateQuestionInput(question.getTitle(), question.getOptions(), question.getCorrectOptionIndex(),
+                question.getDifficulty(), question.getTopics(), question.getMarks());
+    }
+
+    private void validateQuestionInput(String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks) {
+        if (title == null || title.trim().isEmpty()) {
+            throw new QuestionException(ERROR_EMPTY_TITLE);
+        }
+        if (options == null || options.size() < 2) {
+            throw new QuestionException(ERROR_INVALID_OPTIONS);
+        }
+        if (correctOptionIndex < 0 || correctOptionIndex >= options.size()) {
+            throw new QuestionException(ERROR_INVALID_CORRECT_OPTIONS_INDEX);
+        }
+        if (!isValidDifficulty(difficulty)) {
+            throw new QuestionException(ERROR_INVALID_DIFFICULTY_LEVEL);
+        }
+        if (topics == null || topics.isEmpty()) {
+            throw new QuestionException(ERROR_INVALID_TOPICS);
+        }
+        if (marks <= 0) {
+            throw new QuestionException(ERROR_INVALID_MARKS);
+        }
+    }
+
+    private boolean isValidDifficulty(String difficulty) {
+        return difficulty != null && (difficulty.equalsIgnoreCase(DIFFICULTY_EASY) ||
+                difficulty.equalsIgnoreCase(DIFFICULTY_MEDIUM) ||
+                difficulty.equalsIgnoreCase(DIFFICULTY_HARD));
+    }
+}
+================================================================================
+File: src\main\java\com\onlinequiz\services\impl\QuizServiceImpl.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services.impl;
+
+import com.onlinequiz.dao.QuizDAO;
+import com.onlinequiz.models.Quiz;
+import com.onlinequiz.models.Question;
+import com.onlinequiz.services.QuestionService;
+import com.onlinequiz.services.QuizService;
+import com.onlinequiz.exception.QuizException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import static com.onlinequiz.constants.Constants.*;
+
+@Service
+public class QuizServiceImpl implements QuizService {
+    private final QuizDAO quizDAO;
+    private final QuestionService questionService;
+    @Autowired
+    public QuizServiceImpl(QuizDAO quizDAO, QuestionService questionService) {
+        this.quizDAO = quizDAO;
+        this.questionService = questionService;
+    }
+
+    @Override
+    public Quiz createQuiz(String title, Scanner scanner) {
+        List<Question> questions = new ArrayList<>();
+        while (true) {
+            System.out.print("Enter question ID to add to the quiz (or 'done' to finish): ");
+            String questionId = scanner.nextLine();
+            if (questionId.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            Optional<Question> questionOpt = questionService.getQuestionById(questionId);
+            if (questionOpt.isPresent()) {
+                questions.add(questionOpt.get());
+            } else {
+                System.out.println(ERROR_QUESTION_NOT_FOUND);
+            }
+        }
+
+        int totalMarks = questions.stream().mapToInt(Question::getMarks).sum();
+        String accessCode = generateAccessCode();
+        Quiz quiz = new Quiz(UUID.randomUUID().toString(), title, questions, totalMarks, accessCode, true);
+        return quizDAO.createQuiz(quiz);
+    }
+
+
+    @Override
+    public Optional<Quiz> getQuizById(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
+        }
+        return quizDAO.getQuizById(id);
+    }
+
+    @Override
+    public List<Quiz> getAllQuizzes() {
+        return quizDAO.getAllQuizzes();
+    }
+
+    @Override
+    public Quiz updateQuiz(Quiz quiz) {
+        if (quiz == null) {
+            throw new QuizException(ERROR_NULL_QUIZ_ID);
+        }
+        if (!quiz.isModifiable()) {
+            throw new QuizException(ERROR_EMPTY_QUIZ_MODIFY);
+        }
+        return quizDAO.updateQuiz(quiz);
+    }
+
+    @Override
+    public boolean isDeleteQuiz(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
+        }
+        return quizDAO.isDeleteQuiz(id);
+    }
+
+    @Override
+    public Optional<Quiz> getQuizByAccessCode(String accessCode) {
+        if (accessCode == null || accessCode.trim().isEmpty()) {
+            throw new QuizException(ERROR_EMPTY_ACCESS_CODE);
+        }
+        return quizDAO.getQuizByAccessCode(accessCode);
+    }
+
+    @Override
+    public void lockQuiz(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
+        }
+        Optional<Quiz> quizOpt = quizDAO.getQuizById(id);
+        if (quizOpt.isPresent()) {
+            Quiz quiz = quizOpt.get();
+            quiz.setModifiable(false);
+            quizDAO.updateQuiz(quiz);
+        } else {
+            throw new QuizException(ERROR_QUIZ_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public int takeQuiz(String accessCode, Scanner scanner) {
+        Optional<Quiz> quizOpt = getQuizByAccessCode(accessCode);
+        if (quizOpt.isPresent()) {
+            Quiz quiz = quizOpt.get();
+            int score = 0;
+
+            for (Question question : quiz.getQuestions()) {
+                System.out.println(question.getTitle());
+                List<String> options = question.getOptions();
+                for (int i = 0; i < options.size(); i++) {
+                    System.out.println((i + 1) + ". " + options.get(i));
+                }
+
+                System.out.print("Enter your answer (1-" + options.size() + "): ");
+                int userAnswer = Integer.parseInt(scanner.nextLine()) - 1;
+
+                if (userAnswer == question.getCorrectOptionIndex()) {
+                    score += question.getMarks();
+                }
+            }
+
+            return score;
+        } else {
+            throw new QuizException(ERROR_INVALID_ACCESS_CODE);
+        }
+    }
+
+    private String generateAccessCode() {
+        return UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+    }
+}
+
+================================================================================
+File: src\main\java\com\onlinequiz\services\impl\UserServiceImpl.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services.impl;
+import com.onlinequiz.dao.UserDAO;
+import com.onlinequiz.exception.InvalidRoleException;
+import com.onlinequiz.exception.UserAlreadyExistsException;
+import com.onlinequiz.models.User;
+import com.onlinequiz.services.UserService;
+import com.onlinequiz.exception.UserException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import static com.onlinequiz.constants.Constants.*;
+
+@Service
+public class UserServiceImpl implements UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final UserDAO userDAO;
+    @Autowired
+    public UserServiceImpl(UserDAO userDAO) {
+        logger.info("UserServiceImpl initialized");
+        this.userDAO = userDAO;
+    }
+
+    @Override
+    public User createUser(String username, String password, String role) {
+        logger.info("Creating user: {}", username);
+        if (username == null || username.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_USERNAME);
+        }
+        if (password == null || password.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_PASSWORD);
+        }
+        if (role == null || (!role.equals("ADMIN") && !role.equals("USER"))) {
+            throw new InvalidRoleException(ERROR_INVALID_ROLE);
+        }
+
+        if (userDAO.getUserByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException(ERROR_USER_EXISTS);
+        }
+        User user = new User(UUID.randomUUID().toString(), username, password, role);
+        return userDAO.createUser(user);
+    }
+
+    @Override
+    public Optional<User> getUserById(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_USER_ID);
+        }
+        return userDAO.getUserById(id);
+    }
+
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_USERNAME);
+        }
+        return userDAO.getUserByUsername(username);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
+    @Override
+    public User updateUser(User user) {
+        if (user == null) {
+            throw new UserException(ERROR_EMPTY_USER);
+        }
+        return userDAO.updateUser(user);
+    }
+
+    @Override
+    public boolean isDeleteUser(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_USER_ID);
+        }
+        return userDAO.isDeleteUser(id);
+    }
+    @Override
+    public User login(String username, String password) {
+        Optional<User> userOpt = userDAO.authenticateUser(username, password);
+        return userOpt.orElse(null);
+    }
+    @Override
+    public User register(String username, String password, String role) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_USERNAME);
+        }
+        if (password == null || password.trim().isEmpty()) {
+            throw new UserException(ERROR_EMPTY_PASSWORD);
+        }
+        if (role == null || (!role.equals("ADMIN") && !role.equals("USER"))) {
+            throw new InvalidRoleException(ERROR_INVALID_ROLE);
+        }
+
+        if (userDAO.getUserByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException(ERROR_USER_EXISTS);
+        }
+        User user = new User(UUID.randomUUID().toString(), username, password, role);
+        return userDAO.createUser(user);
+    }
+
+}
+================================================================================
+File: src\main\java\com\onlinequiz\ui\ConsoleUI.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.ui;
+
+import com.onlinequiz.exception.QuestionException;
+import com.onlinequiz.exception.QuizException;
+import com.onlinequiz.models.Question;
+import com.onlinequiz.models.Quiz;
+import com.onlinequiz.models.User;
+import com.onlinequiz.services.QuizService;
+import com.onlinequiz.services.UserService;
+import com.onlinequiz.services.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import static com.onlinequiz.constants.Constants.*;
+
+@Component
+public class ConsoleUI {
+    private final QuizService quizService;
+    private final UserService userService;
+    private final QuestionService questionService;
+    private final Scanner scanner;
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleUI.class);
+    private User currentUser;
+    private boolean isRunning;
+
+    @Autowired
+    public ConsoleUI(QuizService quizService, UserService userService, QuestionService questionService) {
+        this.quizService = quizService;
+        this.userService = userService;
+        this.questionService = questionService;
+        this.scanner = new Scanner(System.in);
+        this.isRunning = true;
+        logger.info("ConsoleUI initialized");
+    }
+
+    public void start() {
+        logger.info("Starting ConsoleUI");
+        while (isRunning) {
+            try {
+                if (currentUser == null) {
+                    showLoginMenu();
+                } else if (currentUser.getRole().equals(ROLE_ADMIN)) {
+                    showAdminMenu();
+                } else {
+                    showUserMenu();
+                }
+            } catch (Exception e) {
+                logger.error("An error occurred: {}", e.getMessage());
+                printError("An error occurred: " + e.getMessage());
+            }
+        }
+        logger.info("ConsoleUI stopped");
+    }
+
+    private void showLoginMenu() {
+        printHeader("Login Menu");
+        printOption("1", "Login");
+        printOption("2", "Register");
+        printOption("3", "Exit");
+        int choice = getIntInput(INPUT_OPTION);
+
+        switch (choice) {
+            case 1:
+                login();
+                break;
+            case 2:
+                register();
+                break;
+            case 3:
+                exit();
+                break;
+            default:
+                logger.warn("Invalid option selected: {}", choice);
+                printError(INVALID_OPTION);
+        }
+    }
+
+    private void login() {
+        logger.debug("Attempting login");
+        printHeader("Login");
+        String username = getStringInput(INPUT_USERNAME);
+        String password = getStringInput(INPUT_PASSWORD);
+
+        currentUser = userService.login(username, password);
+        if (currentUser != null) {
+            logger.info("User {} logged in successfully", username);
+            printSuccess("Login successful!");
+        } else {
+            logger.warn("Login failed for username: {}", username);
+            printError(ERROR_INVALID_CREDENTIALS);
+        }
+    }
+
+    private void register() {
+        logger.debug("Attempting user registration");
+        printHeader("Register");
+        String username = getStringInput(INPUT_USERNAME);
+        String password = getStringInput(INPUT_PASSWORD);
+        String role = getStringInput("Enter role (ADMIN/USER): ").toUpperCase();
+
+        User newUser = userService.register(username, password, role);
+        if (newUser != null) {
+            logger.info("New user registered: {}", username);
+            printSuccess("User registered successfully!");
+        } else {
+            logger.warn("Registration failed for username: {}", username);
+            printError("Registration failed. Please try again.");
+        }
+    }
+
+    private void showAdminMenu() {
+        logger.debug("Showing admin menu");
+        printHeader("Admin Menu");
+        printOption("1", "Create Quiz");
+        printOption("2", "View All Quizzes");
+        printOption("3", "Lock Quiz");
+        printOption("4", "Create Question");
+        printOption("5", "View All Questions");
+        printOption("6", "Logout");
+        printOption("7", "Exit");
+        int choice = getIntInput(INPUT_OPTION);
+
+        switch (choice) {
+            case 1:
+                createQuiz();
+                break;
+            case 2:
+                viewAllQuizzes();
+                break;
+            case 3:
+                lockQuiz();
+                break;
+            case 4:
+                createQuestion();
+                break;
+            case 5:
+                viewAllQuestions();
+                break;
+            case 6:
+                logout();
+                break;
+            case 7:
+                exit();
+                break;
+            default:
+                logger.warn("Invalid admin menu option selected: {}", choice);
+                printError(INVALID_OPTION);
+        }
+    }
+
+    private void showUserMenu() {
+        logger.debug("Showing user menu");
+        printHeader("User Menu");
+        printOption("1", "Take Quiz");
+        printOption("2", "View Quiz Results");
+        printOption("3", "Logout");
+        printOption("4", "Exit");
+        int choice = getIntInput(INPUT_OPTION);
+
+        switch (choice) {
+            case 1:
+                takeQuiz();
+                break;
+            case 2:
+                viewQuizResults();
+                break;
+            case 3:
+                logout();
+                break;
+            case 4:
+                exit();
+                break;
+            default:
+                logger.warn("Invalid user menu option selected: {}", choice);
+                printError(INVALID_OPTION);
+        }
+    }
+
+    private void createQuiz() {
+        logger.debug("Creating a new quiz");
+        printHeader("Create Quiz");
+        String title = getStringInput("Enter quiz title: ");
+
+        Quiz createdQuiz = quizService.createQuiz(title, scanner);
+        if (createdQuiz != null) {
+            logger.info("Quiz created successfully: {}", createdQuiz.getTitle());
+            printSuccess("Quiz created successfully! Access code: " + createdQuiz.getAccessCode());
+        } else {
+            logger.warn("Failed to create quiz: {}", title);
+            printError("Failed to create quiz. Please try again.");
+        }
+    }
+
+    private void takeQuiz() {
+        logger.debug("User taking a quiz");
+        printHeader("Take Quiz");
+        String accessCode = getStringInput("Enter quiz access code: ");
+
+        int score = quizService.takeQuiz(accessCode, scanner);
+        logger.info("User completed quiz with access code: {}. Score: {}", accessCode, score);
+        printSuccess("Quiz completed! Your score: " + score);
+    }
+
+    private void viewAllQuizzes() {
+        logger.debug("Viewing all quizzes");
+        printHeader("All Quizzes");
+        List<Quiz> quizzes = quizService.getAllQuizzes();
+        for (Quiz quiz : quizzes) {
+            printInfo(String.format("ID: %s, Title: %s, Total Marks: %d", quiz.getId(), quiz.getTitle(), quiz.getTotalMarks()));
+        }
+    }
+
+    private void lockQuiz() {
+        logger.debug("Attempting to lock a quiz");
+        printHeader("Lock Quiz");
+        String quizId = getStringInput("Enter quiz ID to lock: ");
+        try {
+            quizService.lockQuiz(quizId);
+            logger.info("Quiz locked successfully: {}", quizId);
+            printSuccess("Quiz locked successfully!");
+        } catch (QuizException e) {
+            logger.error("Failed to lock quiz: {}. Error: {}", quizId, e.getMessage());
+            printError(e.getMessage());
+        }
+    }
+
+    private void createQuestion() {
+        logger.debug("Creating a new question");
+        printHeader("Create Question");
+        try {
+            String title = getStringInput("Enter question title: ");
+
+            List<String> options = new ArrayList<>();
+            for (int i = 1; i <= 4; i++) {
+                options.add(getStringInput("Enter option " + i + ": "));
+            }
+            int correctOptionIndex = getIntInput("Enter the index of the correct option (1-4): ") - 1;
+            String difficulty = getStringInput("Enter difficulty (EASY/MEDIUM/HARD): ").toUpperCase();
+            List<String> topics = Arrays.asList(getStringInput("Enter topics (comma-separated): ").split(","));
+            int marks = getIntInput("Enter marks for this question: ");
+
+            Question createdQuestion = questionService.createQuestion(title, options, correctOptionIndex, difficulty, topics, marks);
+            logger.info("Question created successfully: {}", createdQuestion.getId());
+            printSuccess("Question created successfully! ID: " + createdQuestion.getId());
+        } catch (QuestionException e) {
+            logger.error("Error creating question: {}", e.getMessage());
+            printError("Error creating question: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            logger.error("Invalid input for question creation: {}", e.getMessage());
+            printError("Invalid input. Please enter a valid number for correct option index or marks.");
+        }
+    }
+
+    private void viewAllQuestions() {
+        logger.debug("Viewing all questions");
+        printHeader("All Questions");
+        List<Question> questions = questionService.getAllQuestions();
+        for (Question question : questions) {
+            printInfo(String.format("ID: %s, Title: %s, Difficulty: %s", question.getId(), question.getTitle(), question.getDifficulty()));
+        }
+    }
+
+    private void viewQuizResults() {
+        logger.debug("Viewing quiz results");
+        printHeader("Quiz Results");
+        printInfo("Pending task in this version will be implemented in next version update.");
+    }
+
+    private void logout() {
+        logger.debug("User logging out: {}", currentUser.getUsername());
+        currentUser = null;
+        printSuccess("Logged out successfully.");
+    }
+
+    private void exit() {
+        logger.info("User chose to exit the application");
+        isRunning = false;
+        printSuccess("Thank you for using the Online Quiz System. Goodbye!");
+    }
+
+    // Helper methods for improved console output
+    private void printHeader(String header) {
+        logger.debug("Printing header: {}", header);
+        logger.info("\n===== {} =====", header);
+    }
+
+    private void printOption(String key, String value) {
+        logger.info("{}. {}", key, value);
+    }
+
+    private void printSuccess(String message) {
+        logger.info(message);
+        logger.info("\n✅ {}", message);
+    }
+
+    private void printError(String message) {
+        logger.error(message);
+        logger.info("\n❌ {}", message);
+    }
+
+    private void printInfo(String message) {
+        logger.info(message);
+        logger.info("ℹ️ {}", message);
+    }
+
+    private String getStringInput(String prompt) {
+        logger.info(prompt);
+        return scanner.nextLine();
+    }
+
+    private int getIntInput(String prompt) {
+        logger.info(prompt);
+        return Integer.parseInt(scanner.nextLine());
+    }
+}
+================================================================================
+File: src\main\resources\logback.xml
+--------------------------------------------------------------------------------
+
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/application.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
+================================================================================
+File: src\test\java\com\onlinequiz\dao\impl\QuestionDAOImplTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao.impl;
+
+import com.onlinequiz.dao.QuestionDAO;
+import com.onlinequiz.models.Question;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class QuestionDAOImplTest {
+
+    private QuestionDAO questionDAO;
+
+    @BeforeEach
+    void setUp() {
+        questionDAO = new QuestionDAOImpl();
+    }
+
+    @Test
+    void testCreateQuestion() {
+        Question question = new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
+        Question createdQuestion = questionDAO.createQuestion(question);
+        assertNotNull(createdQuestion);
+        assertEquals("1", createdQuestion.getId());
+    }
+
+    @Test
+    void testGetQuestionById() {
+        Question question = new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
+        questionDAO.createQuestion(question);
+        Optional<Question> retrievedQuestion = questionDAO.getQuestionById("1");
+        assertTrue(retrievedQuestion.isPresent());
+        assertEquals("Test Question", retrievedQuestion.get().getTitle());
+    }
+
+    @Test
+    void testGetAllQuestions() {
+        Question question1 = new Question("1", "Test Question 1", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
+        Question question2 = new Question("2", "Test Question 2", Arrays.asList("A", "B"), 1, "MEDIUM", Arrays.asList("Test"), 2);
+        questionDAO.createQuestion(question1);
+        questionDAO.createQuestion(question2);
+        List<Question> questions = questionDAO.getAllQuestions();
+        assertEquals(2, questions.size());
+    }
+
+    @Test
+    void testUpdateQuestion() {
+        Question question = new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
+        questionDAO.createQuestion(question);
+        question.setTitle("Updated Test Question");
+        Question updatedQuestion = questionDAO.updateQuestion(question);
+        assertEquals("Updated Test Question", updatedQuestion.getTitle());
+    }
+
+    @Test
+    void testDeleteQuestion() {
+        Question question = new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1);
+        questionDAO.createQuestion(question);
+        boolean deleted = questionDAO.isDeleteQuestion("1");
+        assertTrue(deleted);
+        Optional<Question> deletedQuestion = questionDAO.getQuestionById("1");
+        assertFalse(deletedQuestion.isPresent());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\dao\impl\QuizDAOImplTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao.impl;
+
+import com.onlinequiz.dao.QuizDAO;
+import com.onlinequiz.models.Quiz;
+import com.onlinequiz.models.Question;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class QuizDAOImplTest {
+
+    private QuizDAO quizDAO;
+
+    @BeforeEach
+    void setUp() {
+        quizDAO = new QuizDAOImpl();
+    }
+
+    @Test
+    void testCreateQuiz() {
+        Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
+        Quiz createdQuiz = quizDAO.createQuiz(quiz);
+        assertNotNull(createdQuiz);
+        assertEquals("1", createdQuiz.getId());
+    }
+
+    @Test
+    void testGetQuizById() {
+        Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
+        quizDAO.createQuiz(quiz);
+        Optional<Quiz> retrievedQuiz = quizDAO.getQuizById("1");
+        assertTrue(retrievedQuiz.isPresent());
+        assertEquals("Test Quiz", retrievedQuiz.get().getTitle());
+    }
+
+    @Test
+    void testGetAllQuizzes() {
+        Quiz quiz1 = new Quiz("1", "Test Quiz 1", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
+        Quiz quiz2 = new Quiz("2", "Test Quiz 2", Arrays.asList(new Question("2", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "DEF456", true);
+        quizDAO.createQuiz(quiz1);
+        quizDAO.createQuiz(quiz2);
+        List<Quiz> quizzes = quizDAO.getAllQuizzes();
+        assertEquals(2, quizzes.size());
+    }
+
+    @Test
+    void testUpdateQuiz() {
+        Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
+        quizDAO.createQuiz(quiz);
+        quiz.setTitle("Updated Test Quiz");
+        Quiz updatedQuiz = quizDAO.updateQuiz(quiz);
+        assertEquals("Updated Test Quiz", updatedQuiz.getTitle());
+    }
+
+    @Test
+    void testDeleteQuiz() {
+        Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
+        quizDAO.createQuiz(quiz);
+        boolean deleted = quizDAO.isDeleteQuiz("1");
+        assertTrue(deleted);
+        Optional<Quiz> deletedQuiz = quizDAO.getQuizById("1");
+        assertFalse(deletedQuiz.isPresent());
+    }
+
+    @Test
+    void testGetQuizByAccessCode() {
+        Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(new Question("1", "Test Question", Arrays.asList("A", "B"), 0, "EASY", Arrays.asList("Test"), 1)), 1, "ABC123", true);
+        quizDAO.createQuiz(quiz);
+        Optional<Quiz> retrievedQuiz = quizDAO.getQuizByAccessCode("ABC123");
+        assertTrue(retrievedQuiz.isPresent());
+        assertEquals("Test Quiz", retrievedQuiz.get().getTitle());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\dao\impl\UserDAOImplTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.dao.impl;
+
+import com.onlinequiz.dao.UserDAO;
+import com.onlinequiz.models.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class UserDAOImplTest {
+
+    private UserDAO userDAO;
+
+    @BeforeEach
+    void setUp() {
+        userDAO = new UserDAOImpl();
+    }
+
+    @Test
+    void testCreateUser() {
+        User user = new User("1", "testuser", "password", "USER");
+        User createdUser = userDAO.createUser(user);
+        assertNotNull(createdUser);
+        assertEquals("1", createdUser.getId());
+    }
+
+    @Test
+    void testGetUserById() {
+        User user = new User("1", "testuser", "password", "USER");
+        userDAO.createUser(user);
+        Optional<User> retrievedUser = userDAO.getUserById("1");
+        assertTrue(retrievedUser.isPresent());
+        assertEquals("testuser", retrievedUser.get().getUsername());
+    }
+
+    @Test
+    void testGetUserByUsername() {
+        User user = new User("1", "testuser", "password", "USER");
+        userDAO.createUser(user);
+        Optional<User> retrievedUser = userDAO.getUserByUsername("testuser");
+        assertTrue(retrievedUser.isPresent());
+        assertEquals("1", retrievedUser.get().getId());
+    }
+
+    @Test
+    void testGetAllUsers() {
+        User user1 = new User("1", "testuser1", "password", "USER");
+        User user2 = new User("2", "testuser2", "password", "ADMIN");
+        userDAO.createUser(user1);
+        userDAO.createUser(user2);
+        List<User> users = userDAO.getAllUsers();
+        assertEquals(2, users.size());
+    }
+
+    @Test
+    void testUpdateUser() {
+        User user = new User("1", "testuser", "password", "USER");
+        userDAO.createUser(user);
+        user.setUsername("updateduser");
+        User updatedUser = userDAO.updateUser(user);
+        assertEquals("updateduser", updatedUser.getUsername());
+    }
+
+    @Test
+    void testDeleteUser() {
+        User user = new User("1", "testuser", "password", "USER");
+        userDAO.createUser(user);
+        boolean deleted = userDAO.isDeleteUser("1");
+        assertTrue(deleted);
+        Optional<User> deletedUser = userDAO.getUserById("1");
+        assertFalse(deletedUser.isPresent());
+    }
+
+    @Test
+    void testAuthenticateUser() {
+        User user = new User("1", "testuser", "password", "USER");
+        userDAO.createUser(user);
+        Optional<User> authenticatedUser = userDAO.authenticateUser("testuser", "password");
+        assertTrue(authenticatedUser.isPresent());
+        assertEquals("1", authenticatedUser.get().getId());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\exception\QuestionExceptionTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class QuestionExceptionTest {
+
+    @Test
+    void testQuestionExceptionWithMessage() {
+        QuestionException exception = new QuestionException("Question not found");
+        assertEquals("Question not found", exception.getMessage());
+    }
+
+    @Test
+    void testQuestionExceptionWithMessageAndCause() {
+        Throwable cause = new RuntimeException("Database error");
+        QuestionException exception = new QuestionException("Failed to fetch question", cause);
+        assertEquals("Failed to fetch question", exception.getMessage());
+        assertEquals(cause, exception.getCause());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\exception\QuizExceptionTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+ class QuizExceptionTest {
+
+    @Test
+    void testQuizExceptionWithMessage() {
+        QuizException exception = new QuizException("Quiz not found");
+        assertEquals("Quiz not found", exception.getMessage());
+    }
+
+    @Test
+    void testQuizExceptionWithMessageAndCause() {
+        Throwable cause = new RuntimeException("Invalid quiz data");
+        QuizException exception = new QuizException("Failed to create quiz", cause);
+        assertEquals("Failed to create quiz", exception.getMessage());
+        assertEquals(cause, exception.getCause());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\exception\UserExceptionTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.exception;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+ class UserExceptionTest {
+
+    @Test
+     void testUserExceptionWithMessage() {
+        UserException exception = new UserException("User not found");
+        assertEquals("User not found", exception.getMessage());
+    }
+
+    @Test
+    void testUserExceptionWithMessageAndCause() {
+        Throwable cause = new RuntimeException("Authentication failed");
+        UserException exception = new UserException("Failed to login user", cause);
+        assertEquals("Failed to login user", exception.getMessage());
+        assertEquals(cause, exception.getCause());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\models\QuestionTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.models;
+
+import org.junit.jupiter.api.Test;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class QuestionTest {
+
+    @Test
+    void testQuestionConstructorAndGetters() {
+        String id = "Q1";
+        String title = "What is the capital of France?";
+        List<String> options = Arrays.asList("London", "Paris", "Berlin", "Madrid");
+        int correctOptionIndex = 1;
+        String difficulty = "Easy";
+        List<String> topics = Arrays.asList("Geography", "Europe");
+        int marks = 2;
+
+        Question question = new Question(id, title, options, correctOptionIndex, difficulty, topics, marks);
+
+        assertEquals(id, question.getId());
+        assertEquals(title, question.getTitle());
+        assertEquals(options, question.getOptions());
+        assertEquals(correctOptionIndex, question.getCorrectOptionIndex());
+        assertEquals(difficulty, question.getDifficulty());
+        assertEquals(topics, question.getTopics());
+        assertEquals(marks, question.getMarks());
+    }
+
+    @Test
+    void testQuestionSetters() {
+        Question question = new Question(null, null, null, 0, null, null, 0);
+
+        String id = "Q2";
+        String title = "What is the largest planet in our solar system?";
+        List<String> options = Arrays.asList("Mars", "Jupiter", "Saturn", "Neptune");
+        int correctOptionIndex = 1;
+        String difficulty = "Medium";
+        List<String> topics = Arrays.asList("Astronomy", "Solar System");
+        int marks = 3;
+
+        question.setId(id);
+        question.setTitle(title);
+        question.setOptions(options);
+        question.setCorrectOptionIndex(correctOptionIndex);
+        question.setDifficulty(difficulty);
+        question.setTopics(topics);
+        question.setMarks(marks);
+
+        assertEquals(id, question.getId());
+        assertEquals(title, question.getTitle());
+        assertEquals(options, question.getOptions());
+        assertEquals(correctOptionIndex, question.getCorrectOptionIndex());
+        assertEquals(difficulty, question.getDifficulty());
+        assertEquals(topics, question.getTopics());
+        assertEquals(marks, question.getMarks());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\models\QuizTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.models;
+
+import org.junit.jupiter.api.Test;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class QuizTest {
+
+    @Test
+    void testQuizConstructorAndGetters() {
+        String id = "QZ1";
+        String title = "Geography Quiz";
+        List<Question> questions = Arrays.asList(
+                new Question("Q1", "Question 1", Arrays.asList("A", "B", "C"), 0, "Easy", Arrays.asList("Topic1"), 1),
+                new Question("Q2", "Question 2", Arrays.asList("X", "Y", "Z"), 1, "Medium", Arrays.asList("Topic2"), 2)
+        );
+        int totalMarks = 3;
+        String accessCode = "GEO123";
+        boolean modifiable = true;
+
+        Quiz quiz = new Quiz(id, title, questions, totalMarks, accessCode, modifiable);
+
+        assertEquals(id, quiz.getId());
+        assertEquals(title, quiz.getTitle());
+        assertEquals(questions, quiz.getQuestions());
+        assertEquals(totalMarks, quiz.getTotalMarks());
+        assertEquals(accessCode, quiz.getAccessCode());
+        assertTrue(quiz.isModifiable());
+    }
+
+    @Test
+    void testQuizSetters() {
+        Quiz quiz = new Quiz(null, null, null, 0, null, false);
+
+        String id = "QZ2";
+        String title = "History Quiz";
+        List<Question> questions = Arrays.asList(
+                new Question("Q3", "Question 3", Arrays.asList("D", "E", "F"), 2, "Hard", Arrays.asList("Topic3"), 3),
+                new Question("Q4", "Question 4", Arrays.asList("P", "Q", "R"), 0, "Easy", Arrays.asList("Topic4"), 1)
+        );
+        int totalMarks = 4;
+        String accessCode = "HIST456";
+        boolean modifiable = true;
+
+        quiz.setId(id);
+        quiz.setTitle(title);
+        quiz.setQuestions(questions);
+        quiz.setTotalMarks(totalMarks);
+        quiz.setAccessCode(accessCode);
+        quiz.setModifiable(modifiable);
+
+        assertEquals(id, quiz.getId());
+        assertEquals(title, quiz.getTitle());
+        assertEquals(questions, quiz.getQuestions());
+        assertEquals(totalMarks, quiz.getTotalMarks());
+        assertEquals(accessCode, quiz.getAccessCode());
+        assertTrue(quiz.isModifiable());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\models\UserTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.models;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class UserTest {
+
+    @Test
+    void testUserConstructorAndGetters() {
+        String id = "U1";
+        String username = "john_doe";
+        String password = "securepass123";
+        String role = "USER";
+
+        User user = new User(id, username, password, role);
+
+        assertEquals(id, user.getId());
+        assertEquals(username, user.getUsername());
+        assertEquals(password, user.getPassword());
+        assertEquals(role, user.getRole());
+    }
+
+    @Test
+    void testUserSetters() {
+        User user = new User(null, null, null, null);
+
+        String id = "U2";
+        String username = "jane_smith";
+        String password = "strongpass456";
+        String role = "ADMIN";
+
+        user.setId(id);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRole(role);
+
+        assertEquals(id, user.getId());
+        assertEquals(username, user.getUsername());
+        assertEquals(password, user.getPassword());
+        assertEquals(role, user.getRole());
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\services\impl\QuestionServiceImplTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services.impl;
+
+import com.onlinequiz.dao.QuestionDAO;
+import com.onlinequiz.exception.QuestionException;
+import com.onlinequiz.models.Question;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class QuestionServiceImplTest {
+
+    @Mock
+    private QuestionDAO questionDAO;
+
+    private QuestionServiceImpl questionService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        questionService = new QuestionServiceImpl(questionDAO);
+    }
+
+    @Test
+    void createQuestion_Success() {
+        // Arrange
+        String title = "Test Question";
+        List<String> options = Arrays.asList("A", "B", "C");
+        int correctOptionIndex = 1;
+        String difficulty = "Easy";
+        List<String> topics = Arrays.asList("Topic1");
+        int marks = 2;
+
+        when(questionDAO.createQuestion(any(Question.class))).thenAnswer(i -> {
+            Question q = (Question) i.getArguments()[0];
+            assertNotNull(q.getId());
+            return q;
+        });
+
+        // Act
+        Question result = questionService.createQuestion(title, options, correctOptionIndex, difficulty, topics, marks);
+
+        // Assert
+        assertNotNull(result.getId());
+        assertEquals(title, result.getTitle());
+        assertEquals(options, result.getOptions());
+        assertEquals(correctOptionIndex, result.getCorrectOptionIndex());
+        assertEquals(difficulty, result.getDifficulty());
+        assertEquals(topics, result.getTopics());
+        assertEquals(marks, result.getMarks());
+        verify(questionDAO, times(1)).createQuestion(any(Question.class));
+    }
+
+    @Test
+    void createQuestion_EmptyTitle_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1));
+    }
+
+    @Test
+    void createQuestion_InsufficientOptions_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("Test Question", Arrays.asList("A"), 0, "Easy", Arrays.asList("Topic1"), 1));
+    }
+
+    @Test
+    void createQuestion_InvalidCorrectOptionIndex_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("Test Question", Arrays.asList("A", "B"), 2, "Easy", Arrays.asList("Topic1"), 1));
+    }
+
+    @Test
+    void createQuestion_InvalidDifficulty_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion("Test Question", Arrays.asList("A", "B", "C"), 1, "InvalidDifficulty", Arrays.asList("Topic1"), 2));
+    }
+    @Test
+    void createQuestion_NullQuestion_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.createQuestion(null, null, 0, null, null, 0));
+    }
+
+    @Test
+    void getQuestionById_Success() {
+        // Arrange
+        String id = "question1";
+        Question expectedQuestion = new Question(id, "Test Question", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1);
+        when(questionDAO.getQuestionById(id)).thenReturn(Optional.of(expectedQuestion));
+
+        // Act
+        Optional<Question> result = questionService.getQuestionById(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedQuestion, result.get());
+        verify(questionDAO, times(1)).getQuestionById(id);
+    }
+
+    @Test
+    void getQuestionById_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.getQuestionById(""));
+    }
+
+    @Test
+    void getAllQuestions_Success() {
+        // Arrange
+        List<Question> expectedQuestions = Arrays.asList(
+                new Question("1", "Q1", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1),
+                new Question("2", "Q2", Arrays.asList("A", "B", "C"), 1, "Medium", Arrays.asList("Topic2"), 2)
+        );
+        when(questionDAO.getAllQuestions()).thenReturn(expectedQuestions);
+
+        // Act
+        List<Question> result = questionService.getAllQuestions();
+
+        // Assert
+        assertEquals(expectedQuestions, result);
+        verify(questionDAO, times(1)).getAllQuestions();
+    }
+
+    @Test
+    void updateQuestion_Success() {
+        // Arrange
+        Question question = new Question("1", "Updated Question", Arrays.asList("A", "B", "C"), 2, "Hard", Arrays.asList("Topic3"), 3);
+        when(questionDAO.updateQuestion(question)).thenReturn(question);
+
+        // Act
+        Question result = questionService.updateQuestion(question);
+
+        // Assert
+        assertEquals(question, result);
+        verify(questionDAO, times(1)).updateQuestion(question);
+    }
+
+    @Test
+    void updateQuestion_NullQuestion_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.updateQuestion(null));
+    }
+
+    @Test
+    void updateQuestion_EmptyId_ThrowsException() {
+        // Arrange
+        Question question = new Question("", "Test Question", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1);
+
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.updateQuestion(question));
+    }
+
+    @Test
+    void updateQuestion_InvalidData_ThrowsException() {
+        // Arrange
+        Question question = new Question("1", "", Arrays.asList("A"), 0, "Easy", Arrays.asList("Topic1"), 1);
+
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.updateQuestion(question));
+    }
+
+    @Test
+    void deleteQuestion_Success() {
+        // Arrange
+        String id = "question1";
+        when(questionDAO.isDeleteQuestion(id)).thenReturn(true);
+
+        // Act
+        boolean result = questionService.isDeleteQuestion(id);
+
+        // Assert
+        assertTrue(result);
+        verify(questionDAO, times(1)).isDeleteQuestion(id);
+    }
+
+    @Test
+    void deleteQuestion_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuestionException.class, () -> questionService.isDeleteQuestion(""));
+    }
+
+    @Test
+    void getQuestionById_QuestionNotFound_ReturnsEmptyOptional() {
+        // Arrange
+        String id = "nonexistent";
+        when(questionDAO.getQuestionById(id)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<Question> result = questionService.getQuestionById(id);
+
+        // Assert
+        assertFalse(result.isPresent());
+        verify(questionDAO, times(1)).getQuestionById(id);
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\services\impl\QuizServiceImplTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services.impl;
+
+import com.onlinequiz.dao.QuizDAO;
+import com.onlinequiz.models.Quiz;
+import com.onlinequiz.models.Question;
+import com.onlinequiz.services.QuestionService;
+import com.onlinequiz.exception.QuizException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class QuizServiceImplTest {
+
+    @Mock
+    private QuizDAO quizDAO;
+
+    @Mock
+    private QuestionService questionService;
+
+    private QuizServiceImpl quizService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        quizService = new QuizServiceImpl(quizDAO, questionService);
+    }
+
+    @Test
+    void createQuiz_Success() {
+        // Arrange
+        String title = "Test Quiz";
+        Scanner scanner = new Scanner("1\n2\ndone\n");
+        Question q1 = new Question("1", "Q1", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1);
+        Question q2 = new Question("2", "Q2", Arrays.asList("A", "B"), 1, "Medium", Arrays.asList("Topic2"), 2);
+
+        when(questionService.getQuestionById("1")).thenReturn(Optional.of(q1));
+        when(questionService.getQuestionById("2")).thenReturn(Optional.of(q2));
+        when(quizDAO.createQuiz(any(Quiz.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Act
+        Quiz result = quizService.createQuiz(title, scanner);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(title, result.getTitle());
+        assertEquals(2, result.getQuestions().size());
+        assertEquals(3, result.getTotalMarks());
+        assertTrue(result.isModifiable());
+        assertNotNull(result.getAccessCode());
+        verify(quizDAO, times(1)).createQuiz(any(Quiz.class));
+    }
+
+    @Test
+    void getQuizById_Success() {
+        // Arrange
+        String id = "quiz1";
+        Quiz expectedQuiz = new Quiz(id, "Test Quiz", new ArrayList<>(), 10, "ACCESS", true);
+        when(quizDAO.getQuizById(id)).thenReturn(Optional.of(expectedQuiz));
+
+        // Act
+        Optional<Quiz> result = quizService.getQuizById(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedQuiz, result.get());
+        verify(quizDAO, times(1)).getQuizById(id);
+    }
+
+    @Test
+    void getQuizById_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.getQuizById(""));
+    }
+
+    @Test
+    void getAllQuizzes_Success() {
+        // Arrange
+        List<Quiz> expectedQuizzes = Arrays.asList(
+                new Quiz("1", "Quiz 1", new ArrayList<>(), 10, "ACCESS1", true),
+                new Quiz("2", "Quiz 2", new ArrayList<>(), 20, "ACCESS2", false)
+        );
+        when(quizDAO.getAllQuizzes()).thenReturn(expectedQuizzes);
+
+        // Act
+        List<Quiz> result = quizService.getAllQuizzes();
+
+        // Assert
+        assertEquals(expectedQuizzes, result);
+        verify(quizDAO, times(1)).getAllQuizzes();
+    }
+
+    @Test
+    void updateQuiz_Success() {
+        // Arrange
+        Quiz quiz = new Quiz("1", "Updated Quiz", new ArrayList<>(), 15, "ACCESS", true);
+        when(quizDAO.updateQuiz(quiz)).thenReturn(quiz);
+
+        // Act
+        Quiz result = quizService.updateQuiz(quiz);
+
+        // Assert
+        assertEquals(quiz, result);
+        verify(quizDAO, times(1)).updateQuiz(quiz);
+    }
+
+    @Test
+    void updateQuiz_NullQuiz_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.updateQuiz(null));
+    }
+
+    @Test
+    void updateQuiz_NotModifiable_ThrowsException() {
+        // Arrange
+        Quiz quiz = new Quiz("1", "Quiz", new ArrayList<>(), 10, "ACCESS", false);
+
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.updateQuiz(quiz));
+    }
+
+    @Test
+    void deleteQuiz_Success() {
+        // Arrange
+        String id = "quiz1";
+        when(quizDAO.isDeleteQuiz(id)).thenReturn(true);
+
+        // Act
+        boolean result = quizService.isDeleteQuiz(id);
+
+        // Assert
+        assertTrue(result);
+        verify(quizDAO, times(1)).isDeleteQuiz(id);
+    }
+
+    @Test
+    void deleteQuiz_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.isDeleteQuiz(""));
+    }
+
+    @Test
+    void getQuizByAccessCode_Success() {
+        // Arrange
+        String accessCode = "ACCESS";
+        Quiz expectedQuiz = new Quiz("1", "Test Quiz", new ArrayList<>(), 10, accessCode, true);
+        when(quizDAO.getQuizByAccessCode(accessCode)).thenReturn(Optional.of(expectedQuiz));
+
+        // Act
+        Optional<Quiz> result = quizService.getQuizByAccessCode(accessCode);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedQuiz, result.get());
+        verify(quizDAO, times(1)).getQuizByAccessCode(accessCode);
+    }
+
+    @Test
+    void getQuizByAccessCode_EmptyAccessCode_ThrowsException() {
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.getQuizByAccessCode(""));
+    }
+
+    @Test
+    void lockQuiz_Success() {
+        // Arrange
+        String id = "quiz1";
+        Quiz quiz = new Quiz(id, "Test Quiz", new ArrayList<>(), 10, "ACCESS", true);
+        when(quizDAO.getQuizById(id)).thenReturn(Optional.of(quiz));
+
+        // Act
+        quizService.lockQuiz(id);
+
+        // Assert
+        assertFalse(quiz.isModifiable());
+        verify(quizDAO, times(1)).updateQuiz(quiz);
+    }
+
+    @Test
+    void lockQuiz_QuizNotFound_ThrowsException() {
+        // Arrange
+        String id = "quiz1";
+        when(quizDAO.getQuizById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.lockQuiz(id));
+    }
+
+    @Test
+    void takeQuiz_Success() {
+        // Arrange
+        String accessCode = "ACCESS";
+        Quiz quiz = new Quiz("1", "Test Quiz", Arrays.asList(
+                new Question("q1", "Q1", Arrays.asList("A", "B"), 0, "Easy", Arrays.asList("Topic1"), 1),
+                new Question("q2", "Q2", Arrays.asList("A", "B", "C"), 2, "Medium", Arrays.asList("Topic2"), 2)
+        ), 3, accessCode, false);
+        when(quizDAO.getQuizByAccessCode(accessCode)).thenReturn(Optional.of(quiz));
+        Scanner scanner = new Scanner("1\n3\n");
+
+        // Act
+        int score = quizService.takeQuiz(accessCode, scanner);
+
+        // Assert
+        assertEquals(3, score);
+    }
+
+    @Test
+    void takeQuiz_QuizNotFound_ThrowsException() {
+        // Arrange
+        String accessCode = "INVALID";
+        when(quizDAO.getQuizByAccessCode(accessCode)).thenReturn(Optional.empty());
+        Scanner scanner = new Scanner("");
+
+        // Act & Assert
+        assertThrows(QuizException.class, () -> quizService.takeQuiz(accessCode, scanner));
+    }
+}
+================================================================================
+File: src\test\java\com\onlinequiz\services\impl\UserServiceImplTest.java
+--------------------------------------------------------------------------------
+
+package com.onlinequiz.services.impl;
+
+import com.onlinequiz.dao.UserDAO;
+import com.onlinequiz.exception.InvalidRoleException;
+import com.onlinequiz.exception.UserAlreadyExistsException;
+import com.onlinequiz.exception.UserException;
+import com.onlinequiz.models.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class UserServiceImplTest {
+
+    @Mock
+    private UserDAO userDAO;
+
+    private UserServiceImpl userService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        userService = new UserServiceImpl(userDAO);
+    }
+
+    @Test
+    void createUser_Success() {
+        // Arrange
+        String username = "testuser";
+        String password = "password123";
+        String role = "USER";
+        when(userDAO.getUserByUsername(username)).thenReturn(Optional.empty());
+        when(userDAO.createUser(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Act
+        User result = userService.createUser(username, password, role);
+
+        // Assert
+        assertNotNull(result.getId());
+        assertEquals(username, result.getUsername());
+        assertEquals(password, result.getPassword());
+        assertEquals(role, result.getRole());
+        verify(userDAO, times(1)).createUser(any(User.class));
+    }
+
+    @Test
+    void createUser_EmptyUsername_ThrowsException() {
+        // Act & Assert
+        assertThrows(UserException.class, () -> userService.createUser("", "password", "USER"));
+    }
+
+    @Test
+    void createUser_EmptyPassword_ThrowsException() {
+        // Act & Assert
+        assertThrows(UserException.class, () -> userService.createUser("username", "", "USER"));
+    }
+
+    @Test
+    void createUser_InvalidRole_ThrowsException() {
+        // Act & Assert
+        assertThrows(InvalidRoleException.class, () -> userService.createUser("username", "password", "INVALID_ROLE"));
+    }
+
+    @Test
+    void createUser_ExistingUsername_ThrowsException() {
+        // Arrange
+        String username = "existinguser";
+        when(userDAO.getUserByUsername(username)).thenReturn(Optional.of(new User("1", username, "password", "USER")));
+
+        // Act & Assert
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(username, "password", "USER"));
+    }
+
+    @Test
+    void getUserById_Success() {
+        // Arrange
+        String id = "user1";
+        User expectedUser = new User(id, "testuser", "password", "USER");
+        when(userDAO.getUserById(id)).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        Optional<User> result = userService.getUserById(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedUser, result.get());
+        verify(userDAO, times(1)).getUserById(id);
+    }
+
+    @Test
+    void getUserById_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(UserException.class, () -> userService.getUserById(""));
+    }
+
+    @Test
+    void getUserByUsername_Success() {
+        // Arrange
+        String username = "testuser";
+        User expectedUser = new User("1", username, "password", "USER");
+        when(userDAO.getUserByUsername(username)).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        Optional<User> result = userService.getUserByUsername(username);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedUser, result.get());
+        verify(userDAO, times(1)).getUserByUsername(username);
+    }
+
+    @Test
+    void getUserByUsername_EmptyUsername_ThrowsException() {
+        // Act & Assert
+        assertThrows(UserException.class, () -> userService.getUserByUsername(""));
+    }
+
+    @Test
+    void getAllUsers_Success() {
+        // Arrange
+        List<User> expectedUsers = Arrays.asList(
+                new User("1", "user1", "password1", "USER"),
+                new User("2", "user2", "password2", "ADMIN")
+        );
+        when(userDAO.getAllUsers()).thenReturn(expectedUsers);
+
+        // Act
+        List<User> result = userService.getAllUsers();
+
+        // Assert
+        assertEquals(expectedUsers, result);
+        verify(userDAO, times(1)).getAllUsers();
+    }
+
+    @Test
+    void updateUser_Success() {
+        // Arrange
+        User user = new User("1", "updateduser", "newpassword", "ADMIN");
+        when(userDAO.updateUser(user)).thenReturn(user);
+
+        // Act
+        User result = userService.updateUser(user);
+
+        // Assert
+        assertEquals(user, result);
+        verify(userDAO, times(1)).updateUser(user);
+    }
+
+    @Test
+    void updateUser_NullUser_ThrowsException() {
+        // Act & Assert
+        assertThrows(UserException.class, () -> userService.updateUser(null));
+    }
+
+    @Test
+    void deleteUser_Success() {
+        // Arrange
+        String id = "user1";
+        when(userDAO.isDeleteUser(id)).thenReturn(true);
+
+        // Act
+        boolean result = userService.isDeleteUser(id);
+
+        // Assert
+        assertTrue(result);
+        verify(userDAO, times(1)).isDeleteUser(id);
+    }
+
+    @Test
+    void deleteUser_EmptyId_ThrowsException() {
+        // Act & Assert
+        assertThrows(UserException.class, () -> userService.isDeleteUser(""));
+    }
+
+    @Test
+    void login_Success() {
+        // Arrange
+        String username = "testuser";
+        String password = "password";
+        User expectedUser = new User("1", username, password, "USER");
+        when(userDAO.authenticateUser(username, password)).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        User result = userService.login(username, password);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedUser, result);
+        verify(userDAO, times(1)).authenticateUser(username, password);
+    }
+
+    @Test
+    void login_Failed() {
+        // Arrange
+        String username = "testuser";
+        String password = "wrongpassword";
+        when(userDAO.authenticateUser(username, password)).thenReturn(Optional.empty());
+
+        // Act
+        User result = userService.login(username, password);
+
+        // Assert
+        assertNull(result);
+        verify(userDAO, times(1)).authenticateUser(username, password);
+    }
+
+    @Test
+    void register_Success() {
+        // Arrange
+        String username = "newuser";
+        String password = "password123";
+        String role = "USER";
+        when(userDAO.getUserByUsername(username)).thenReturn(Optional.empty());
+        when(userDAO.createUser(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Act
+        User result = userService.register(username, password, role);
+
+        // Assert
+        assertNotNull(result.getId());
+        assertEquals(username, result.getUsername());
+        assertEquals(password, result.getPassword());
+        assertEquals(role, result.getRole());
+        verify(userDAO, times(1)).createUser(any(User.class));
+    }
+
+    @Test
+    void register_ExistingUsername_ThrowsException() {
+        // Arrange
+        String username = "existinguser";
+        when(userDAO.getUserByUsername(username)).thenReturn(Optional.of(new User("1", username, "password", "USER")));
+
+        // Act & Assert
+        assertThrows(UserAlreadyExistsException.class, () -> userService.register(username, "password", "USER"));
+    }
+}
+
+================================================================================
+Summary:
+Files processed: 44
+Files skipped: 4
+================================================================================

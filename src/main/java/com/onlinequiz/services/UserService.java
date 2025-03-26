@@ -10,6 +10,7 @@ public interface UserService {
     Optional<User> getUserByUsername(String username);
     List<User> getAllUsers();
     User updateUser(User user);
-    boolean deleteUser(String id);
-    Optional<User> authenticateUser(String username, String password);
+    boolean isDeleteUser(String id);
+    User login(String username, String password);
+    User register(String username, String password, String role);
 }

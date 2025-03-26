@@ -1,0 +1,11 @@
+12:48:26.150 [main] INFO  com.onlinequiz.Main - Starting Online Quiz Application
+12:48:26.664 [main] INFO  c.o.s.impl.QuestionServiceImpl - QuestionServiceImpl initialized
+12:48:26.670 [main] INFO  c.o.services.impl.QuizServiceImpl - QuizServiceImpl initialized
+12:48:26.675 [main] INFO  c.o.services.impl.UserServiceImpl - UserServiceImpl initialized
+12:48:26.693 [main] INFO  com.onlinequiz.ui.ConsoleUI - ConsoleUI initialized
+12:48:26.731 [main] INFO  com.onlinequiz.ui.ConsoleUI - Starting ConsoleUI
+12:48:36.960 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: v
+12:49:29.099 [main] INFO  c.o.s.impl.QuestionServiceImpl - Creating question: sasa
+12:50:33.467 [main] INFO  c.o.services.impl.QuizServiceImpl - Creating quiz: abc
+12:50:56.801 [main] INFO  c.o.services.impl.UserServiceImpl - Creating user: a
+12:51:02.590 [main] INFO  com.onlinequiz.ui.ConsoleUI - User Access to quiz by Access Code

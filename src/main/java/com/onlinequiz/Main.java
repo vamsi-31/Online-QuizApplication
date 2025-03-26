@@ -1,45 +1,35 @@
 package com.onlinequiz;
-//import com.onlinequiz.dao.QuizDAO;
-//import com.onlinequiz.dao.UserDAO;
-//import com.onlinequiz.dao.QuestionDAO;
-//import com.onlinequiz.dao.impl.QuizDAOImpl;
-//import com.onlinequiz.dao.impl.UserDAOImpl;
-//import com.onlinequiz.dao.impl.QuestionDAOImpl;
-//import com.onlinequiz.services.QuizService;
-//import com.onlinequiz.services.UserService;
-//import com.onlinequiz.services.QuestionService;
-//import com.onlinequiz.services.impl.QuizServiceImpl;
-//import com.onlinequiz.services.impl.UserServiceImpl;
-//import com.onlinequiz.services.impl.QuestionServiceImpl;
+
 import com.onlinequiz.ui.ConsoleUI;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import com.onlinequiz.config.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
-        logger.info("Starting Online Quiz Application");
-        try {
-            // Initialize DAOs
-            //QuizDAO quizDAO = new QuizDAOImpl();
-            //UserDAO userDAO = new UserDAOImpl();
-            //QuestionDAO questionDAO = new QuestionDAOImpl();
+        SpringApplication.run(Main.class, args);
+    }
 
-            // Initialize Services
-            //QuizService quizService = new QuizServiceImpl(quizDAO);
-            //UserService userService = new UserServiceImpl(userDAO);
-            //QuestionService questionService = new QuestionServiceImpl(questionDAO);
-
-            // Initialize and start ConsoleUI
-            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-            ConsoleUI consoleUI = context.getBean(ConsoleUI.class);
-            consoleUI.start();
-            context.close();
-        } catch (Exception e) {
-            logger.error("Fatal error: {}", e.getMessage(), e);
-            System.out.println("An unexpected error occurred: " + e.getMessage());
-            e.printStackTrace();
-        }
+    @Bean
+    public CommandLineRunner run(ConsoleUI consoleUI) {
+        return args -> {
+            logger.info("Starting Online Quiz Application");
+            if (args.length > 0 && args[0].equalsIgnoreCase("console")) {
+                logger.info("Running in console mode");
+                try {
+                    consoleUI.start();
+                } catch (Exception e) {
+                    logger.error("Fatal error in console mode: {}", e.getMessage(), e);
+                }
+            } else {
+                logger.info("Running in API mode");
+            }
+        };
     }
 }

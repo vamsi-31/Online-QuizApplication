@@ -42,5 +42,5 @@ public interface QuestionDAO {
      * @param id The ID of the question to delete.
      * @return true if the question was successfully deleted, false otherwise.
      */
-    boolean deleteQuestion(String id);
+    boolean isDeleteQuestion(String id);
 }
