@@ -4,8 +4,6 @@
 [![GitHub Issues](https://img.shields.io/github/issues/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/issues)
 [![GitHub Pull Requests](https://github.com/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/pulls)
 [![Java CI with Maven](https://github.com/vamsi-31/Online-QuizApplication/actions/workflows/maven.yml/badge.svg)](https://github.com/vamsi-31/Online-QuizApplication/actions/workflows/maven.yml)
-[![codecov](https://codecov.io/gh/vamsi-31/Online-QuizApplication/branch/main/graph/badge.svg?token=YOUR_CODECOV_TOKEN)](https://codecov.io/gh/vamsi-31/Online-QuizApplication)
-
 ## Overview
 
 This Online Quiz Application is a comprehensive system designed for creating, managing, and taking quizzes. It offers role-based access control (Admin/User), ensuring secure and efficient quiz administration and participation.
@@ -182,8 +180,7 @@ The project follows a layered architecture, enhanced by Spring Boot:
 ├── 📄 pom.xml 📜 Maven Project Configuration (Spring Boot Parent, Starters)
 ├── 📄 LICENSE 📜 MIT License
 └── 📄 README.md 📜 This File
-
-
+```
 *   **Main Class:** (`Main.java`) The application's entry point, annotated with `@SpringBootApplication`. Configures a `CommandLineRunner` to conditionally start the `ConsoleUI`.
 *   **Controller Layer:** (`controllers/`) Contains classes annotated with `@RestController` that handle incoming HTTP requests for the REST API (e.g., `UserController`, `QuestionController`). **This layer was added for the Spring Boot web capabilities.**
 *   **Configuration Layer:** (`config/`) Contains classes annotated with `@Configuration` that explicitly define Spring beans using `@Bean` methods (e.g., `AppConfig`).
@@ -195,7 +192,7 @@ The project follows a layered architecture, enhanced by Spring Boot:
 *   **UI Layer:** (`ui/`) Contains the `ConsoleUI` class (annotated with `@Component`), responsible for managing the command-line user interface interactions.
 *   **Resources:** (`src/main/resources/`) Contains external configuration files like `logback.xml` (for logging) and potentially `application.properties` (for Spring Boot settings).
 *   **Tests:** (`src/test/java/`) Contains unit tests (using JUnit 5 and Mockito, often via `spring-boot-starter-test`) for verifying the functionality of DAO, Service, and potentially Controller layers.
-=======
+
 *   **Configuration Layer:** (config/) Configures the Spring beans and dependency injection. **This is new with the Spring Boot migration.**
     
 *   **DAO Layer:** (dao/, dao/impl/) Provides interfaces and implementations for data access operations. Data is currently stored in-memory using HashMaps. In a real-world application, this would be replaced with a database integration.
@@ -220,8 +217,7 @@ The project follows a layered architecture, enhanced by Spring Boot:
 To execute the unit tests and verify the functionality of the application:
 
 ```bash
-mvn test
-
+mvn test 
 ```
 # Contributing  
 We welcome contributions to enhance and improve this project!
@@ -238,4 +234,3 @@ Submit a pull request with a clear description of your changes.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
