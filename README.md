@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/github/license/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/blob/main/LICENSE)
 [![GitHub Issues](https://img.shields.io/github/issues/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/issues)
 [![GitHub Pull Requests](https://github.com/vamsi-31/Online-QuizApplication)](https://github.com/vamsi-31/Online-QuizApplication/pulls)
-[![Java CI with Maven](https://github.com/vamsi-31/Online-QuizApplication/actions/workflows/maven.yml/badge.svg)](https://github.com/vamsi-31/Online-QuizApplication/actions/workflows/maven.yml)
+
 ## Overview
 
 This Online Quiz Application is a comprehensive system designed for creating, managing, and taking quizzes. It offers role-based access control (Admin/User), ensuring secure and efficient quiz administration and participation.
