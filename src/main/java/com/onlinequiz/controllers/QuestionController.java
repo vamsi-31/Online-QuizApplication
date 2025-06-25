@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -23,22 +21,15 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
-        Question createdQuestion = questionService.createQuestion(
-                question.getTitle(),
-                question.getOptions(),
-                question.getCorrectOptionIndex(),
-                question.getDifficulty(),
-                question.getTopics(),
-                question.getMarks()
-        );
+        Question createdQuestion = questionService.createQuestion(question);
         return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Question> getQuestionById(@PathVariable String id) {
-        Optional<Question> question = questionService.getQuestionById(id);
-        return question.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return questionService.getQuestionById(id)
+                .map(question -> new ResponseEntity<>(question, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
@@ -56,7 +47,19 @@ public class QuestionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable String id) {
-        boolean deleted = questionService.isDeleteQuestion(id);
+        boolean deleted = questionService.deleteQuestion(id);
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/difficulty/{difficulty}")
+    public ResponseEntity<List<Question>> getQuestionsByDifficulty(@PathVariable String difficulty) {
+        List<Question> questions = questionService.getQuestionsByDifficulty(difficulty);
+        return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
+    @GetMapping("/topic/{topic}")
+    public ResponseEntity<List<Question>> getQuestionsByTopic(@PathVariable String topic) {
+        List<Question> questions = questionService.getQuestionsByTopic(topic);
+        return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 }

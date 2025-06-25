@@ -14,34 +14,36 @@ The application maintains a layered architecture and robust error handling, prom
 
 ## Key Features
 
+*   **Database Persistence:**
+    *   Data is persisted in a relational database (MySQL) using Spring Data JPA.
+    *   Automatic schema generation/update via Hibernate (`ddl-auto`).
 *   **Dual Interface:**
     *   **Console UI:** Interactive command-line interface for direct user interaction.
-    *   **REST API:** Provides endpoints for managing users, questions, and quizzes programmatically (details below).
+    *   **REST API:** Provides a full suite of endpoints for managing users, questions, and quizzes.
 *   **User Management:**
-    *   Secure registration and authentication (login/register endpoints via API).
+    *   Secure registration and authentication via REST API.
     *   Role-based access control (ADMIN/USER).
-    *   CRUD operations for users (via API and potentially admin console).
+    *   Full CRUD operations for users via REST API.
 *   **Quiz Management (Admin):**
-    *   Creation of quizzes with titles and question sets (via Console UI, API TBD).
+    *   Full CRUD operations for quizzes via REST API.
     *   Automatic generation of unique access codes.
-    *   Listing quizzes (via Console UI, API TBD).
-    *   Quiz locking to prevent modification (via Console UI, API TBD).
+    *   Quiz locking to prevent further modification.
 *   **Question Management (Admin):**
-    *   CRUD operations for multiple-choice questions (via API and Console UI).
+    *   Full CRUD operations for multiple-choice questions via REST API and Console UI.
     *   Configuration options for difficulty level, topic tagging, and point values.
-    *   Centralized question repository (in-memory).
+    *   Questions are stored in a centralized database repository.
 *   **Quiz Taking (User):**
-    *   Simple quiz access via unique access codes (via Console UI).
-    *   Real-time score calculation (via Console UI).
+    *   Simple quiz access via unique access codes.
+    *   Real-time score calculation via both Console UI and REST API.
 *   **Spring Boot Integration:**
-    *   Simplified setup with `spring-boot-starter-web` and `spring-boot-starter-test`.
-    *   Auto-configuration and component scanning (`@SpringBootApplication`, `@RestController`, `@Service`, `@Repository`, `@Component`).
+    *   Simplified setup with `spring-boot-starter-web`, `spring-boot-starter-data-jpa`, and `spring-boot-starter-test`.
+    *   Auto-configuration and component scanning.
     *   Executable JAR packaging via `spring-boot-maven-plugin`.
 *   **Logging and Error Handling:**
     *   Integration with SLF4j and Logback.
     *   Custom exception handling and appropriate HTTP status codes in API responses.
 *   **Testing and Code Quality:**
-    *   Extensive unit tests using JUnit and Mockito (via `spring-boot-starter-test`).
+    *   Extensive unit tests using JUnit and Mockito.
     *   GitHub Actions for continuous integration (CI).
     *   Codecov integration for code coverage.
 
@@ -64,6 +66,7 @@ The application maintains a layered architecture and robust error handling, prom
 *   **Java Development Kit (JDK) 17 or higher:** Download from [Oracle](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) or [OpenJDK](https://openjdk.java.net/projects/jdk/17/). Set `JAVA_HOME`.
 *   **Maven:** Download from [Apache Maven](https://maven.apache.org/download.cgi). Add the `bin` directory to your system's PATH.
 *   **Git:** Download from [Git SCM](https://git-scm.com/downloads).
+*   **MySQL Server:** A running instance of a MySQL database.
 
 ### Installation
 
@@ -187,7 +190,8 @@ The project follows a layered architecture, enhanced by Spring Boot:
 *   **Constants Layer:** (`constants/`) Defines static final constants used throughout the application (e.g., error messages, roles).
 *   **DAO Layer:** (`dao/`, `dao/impl/`) Provides interfaces and their implementations (annotated with `@Repository`) for data access. Data is currently stored in-memory (`HashMap`). This layer interacts with the data source.
 *   **Exception Layer:** (`exception/`) Defines custom runtime exception classes for handling specific application errors gracefully (e.g., `UserException`, `QuizException`).
-*   **Model Layer:** (`models/`) Contains Plain Old Java Objects (POJOs) representing the application's data entities (e.g., `User`, `Quiz`, `Question`), often using Lombok (`@Data`) to reduce boilerplate.
+*   **Repository Layer:** (`repositories/`) Contains Spring Data JPA interfaces that extend `JpaRepository`. Spring automatically provides the implementation for standard CRUD operations, significantly simplifying data access code.
+*   **Model Layer:** (`models/`) Contains the data model classes (`User`, `Quiz`, `Question`). These are JPA **entities** annotated with `@Entity` to map them to database tables.
 *   **Service Layer:** (`services/`, `services/impl/`) Contains interfaces and their implementations (annotated with `@Service`) defining the core business logic, orchestrating calls to the DAO layer and enforcing rules.
 *   **UI Layer:** (`ui/`) Contains the `ConsoleUI` class (annotated with `@Component`), responsible for managing the command-line user interface interactions.
 *   **Resources:** (`src/main/resources/`) Contains external configuration files like `logback.xml` (for logging) and potentially `application.properties` (for Spring Boot settings).

@@ -30,6 +30,7 @@ public class QuestionDAOImpl implements QuestionDAO {
         return question;
     }
 
+
     @Override
     public boolean isDeleteQuestion(String id) {
         return questions.remove(id) != null;

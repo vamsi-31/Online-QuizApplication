@@ -86,13 +86,13 @@ public class ConsoleUI {
         String username = getStringInput(INPUT_USERNAME);
         String password = getStringInput(INPUT_PASSWORD);
 
-        currentUser = userService.login(username, password);
-        if (currentUser != null) {
+        try {
+            currentUser = userService.login(username, password);
             logger.info("User {} logged in successfully", username);
             printSuccess("Login successful!");
-        } else {
-            logger.warn("Login failed for username: {}", username);
-            printError(ERROR_INVALID_CREDENTIALS);
+        } catch (Exception e) {
+            logger.warn("Login failed for username: {}. Error: {}", username, e.getMessage());
+            printError("Login failed: " + e.getMessage());
         }
     }
 
@@ -103,13 +103,13 @@ public class ConsoleUI {
         String password = getStringInput(INPUT_PASSWORD);
         String role = getStringInput("Enter role (ADMIN/USER): ").toUpperCase();
 
-        User newUser = userService.register(username, password, role);
-        if (newUser != null) {
+        try {
+            User newUser = userService.register(username, password, role);
             logger.info("New user registered: {}", username);
             printSuccess("User registered successfully!");
-        } else {
-            logger.warn("Registration failed for username: {}", username);
-            printError("Registration failed. Please try again.");
+        } catch (Exception e) {
+            logger.warn("Registration failed for username: {}. Error: {}", username, e.getMessage());
+            printError("Registration failed: " + e.getMessage());
         }
     }
 
@@ -185,14 +185,22 @@ public class ConsoleUI {
         logger.debug("Creating a new quiz");
         printHeader("Create Quiz");
         String title = getStringInput("Enter quiz title: ");
+        List<String> questionIds = new ArrayList<>();
+        while (true) {
+            String questionId = getStringInput("Enter question ID to add to the quiz (or 'done' to finish): ");
+            if (questionId.equalsIgnoreCase("done")) {
+                break;
+            }
+            questionIds.add(questionId);
+        }
 
-        Quiz createdQuiz = quizService.createQuiz(title, scanner);
-        if (createdQuiz != null) {
+        try {
+            Quiz createdQuiz = quizService.createQuiz(title, questionIds);
             logger.info("Quiz created successfully: {}", createdQuiz.getTitle());
             printSuccess("Quiz created successfully! Access code: " + createdQuiz.getAccessCode());
-        } else {
-            logger.warn("Failed to create quiz: {}", title);
-            printError("Failed to create quiz. Please try again.");
+        } catch (QuizException e) {
+            logger.warn("Failed to create quiz: {}. Error: {}", title, e.getMessage());
+            printError("Failed to create quiz: " + e.getMessage());
         }
     }
 
@@ -201,17 +209,40 @@ public class ConsoleUI {
         printHeader("Take Quiz");
         String accessCode = getStringInput("Enter quiz access code: ");
 
-        int score = quizService.takeQuiz(accessCode, scanner);
-        logger.info("User completed quiz with access code: {}. Score: {}", accessCode, score);
-        printSuccess("Quiz completed! Your score: " + score);
+        try {
+            Quiz quiz = quizService.getQuizByAccessCode(accessCode)
+                    .orElseThrow(() -> new QuizException("Quiz not found"));
+            List<Integer> userAnswers = new ArrayList<>();
+            for (int i = 0; i < quiz.getQuestions().size(); i++) {
+                Question question = quiz.getQuestions().get(i);
+                printInfo("Question " + (i + 1) + ": " + question.getTitle());
+                for (int j = 0; j < question.getOptions().size(); j++) {
+                    printInfo((j + 1) + ". " + question.getOptions().get(j));
+                }
+                int answer = getIntInput("Enter your answer (1-" + question.getOptions().size() + "): ");
+                userAnswers.add(answer - 1);
+            }
+
+            int score = quizService.takeQuiz(accessCode, userAnswers);
+            logger.info("User completed quiz with access code: {}. Score: {}", accessCode, score);
+            printSuccess("Quiz completed! Your score: " + score);
+        } catch (QuizException e) {
+            logger.error("Error taking quiz: {}", e.getMessage());
+            printError("Error taking quiz: " + e.getMessage());
+        }
     }
 
     private void viewAllQuizzes() {
         logger.debug("Viewing all quizzes");
         printHeader("All Quizzes");
         List<Quiz> quizzes = quizService.getAllQuizzes();
-        for (Quiz quiz : quizzes) {
-            printInfo(String.format("ID: %s, Title: %s, Total Marks: %d", quiz.getId(), quiz.getTitle(), quiz.getTotalMarks()));
+        if (quizzes.isEmpty()) {
+            printInfo("No quizzes found.");
+        } else {
+            for (Quiz quiz : quizzes) {
+                printInfo(String.format("ID: %s, Title: %s, Total Marks: %d, Access Code: %s",
+                        quiz.getId(), quiz.getTitle(), quiz.getTotalMarks(), quiz.getAccessCode()));
+            }
         }
     }
 
@@ -244,7 +275,16 @@ public class ConsoleUI {
             List<String> topics = Arrays.asList(getStringInput("Enter topics (comma-separated): ").split(","));
             int marks = getIntInput("Enter marks for this question: ");
 
-            Question createdQuestion = questionService.createQuestion(title, options, correctOptionIndex, difficulty, topics, marks);
+            Question question = Question.builder()
+                    .title(title)
+                    .options(options)
+                    .correctOptionIndex(correctOptionIndex)
+                    .difficulty(difficulty)
+                    .topics(topics)
+                    .marks(marks)
+                    .build();
+
+            Question createdQuestion = questionService.createQuestion(question);
             logger.info("Question created successfully: {}", createdQuestion.getId());
             printSuccess("Question created successfully! ID: " + createdQuestion.getId());
         } catch (QuestionException e) {

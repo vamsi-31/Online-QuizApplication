@@ -1,77 +1,42 @@
 package com.onlinequiz.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a quiz in the application.
  */
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Quiz {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @Column(nullable = false)
     private String title;
-    private List<Question> questions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "quiz_questions",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    @Builder.Default  // This annotation ensures the list is initialized even when using the builder
+    private List<Question> questions = new ArrayList<>();
+
     private int totalMarks;
+
+    @Column(unique = true)
     private String accessCode;
+
     private boolean modifiable;
-
-    // Constructor
-    public Quiz(){
-
-    }
-    public Quiz(String id, String title, List<Question> questions, int totalMarks, String accessCode, boolean modifiable) {
-        this.id = id;
-        this.title = title;
-        this.questions = questions;
-        this.totalMarks = totalMarks;
-        this.accessCode = accessCode;
-        this.modifiable = modifiable;
-    }
-
-    // Getters and setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
-    public int getTotalMarks() {
-        return totalMarks;
-    }
-
-    public void setTotalMarks(int totalMarks) {
-        this.totalMarks = totalMarks;
-    }
-
-    public String getAccessCode() {
-        return accessCode;
-    }
-
-    public void setAccessCode(String accessCode) {
-        this.accessCode = accessCode;
-    }
-
-    public boolean isModifiable() {
-        return modifiable;
-    }
-
-    public void setModifiable(boolean modifiable) {
-        this.modifiable = modifiable;
-    }
 }

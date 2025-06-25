@@ -1,6 +1,7 @@
 package com.onlinequiz.dao.impl;
 
 import com.onlinequiz.dao.UserDAO;
+import com.onlinequiz.exception.NoUserException;
 import com.onlinequiz.models.User;
 import java.util.*;
 import org.springframework.stereotype.Repository;
@@ -33,8 +34,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User updateUser(User user) {
-        users.put(user.getId(), user);
-        return user;
+        if (users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
+            return user;
+        }
+        throw new NoUserException("User not found with id: " + user.getId());
     }
 
     @Override

@@ -1,136 +1,113 @@
 package com.onlinequiz.services.impl;
 
-import com.onlinequiz.dao.QuizDAO;
 import com.onlinequiz.models.Quiz;
 import com.onlinequiz.models.Question;
-import com.onlinequiz.services.QuestionService;
+import com.onlinequiz.repositories.QuizRepository;
+import com.onlinequiz.repositories.QuestionRepository;
 import com.onlinequiz.services.QuizService;
 import com.onlinequiz.exception.QuizException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.onlinequiz.constants.Constants.*;
 
 @Service
+@RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
-    private final QuizDAO quizDAO;
-    private final QuestionService questionService;
-    @Autowired
-    public QuizServiceImpl(QuizDAO quizDAO, QuestionService questionService) {
-        this.quizDAO = quizDAO;
-        this.questionService = questionService;
-    }
+
+    private final QuizRepository quizRepository;
+    private final QuestionRepository questionRepository;
 
     @Override
-    public Quiz createQuiz(String title, Scanner scanner) {
-        List<Question> questions = new ArrayList<>();
-        while (true) {
-            System.out.print("Enter question ID to add to the quiz (or 'done' to finish): ");
-            String questionId = scanner.nextLine();
-            if (questionId.equalsIgnoreCase("done")) {
-                break;
-            }
-
-            Optional<Question> questionOpt = questionService.getQuestionById(questionId);
-            if (questionOpt.isPresent()) {
-                questions.add(questionOpt.get());
-            } else {
-                System.out.println(ERROR_QUESTION_NOT_FOUND);
-            }
+    @Transactional
+    public Quiz createQuiz(String title, List<String> questionIds) {
+        List<Question> questions = questionRepository.findAllById(questionIds);
+        if (questions.isEmpty()) {
+            throw new QuizException("No valid questions found for the given IDs");
+        }
+        if (questions.size() != questionIds.size()) {
+            throw new QuizException("Some questions were not found");
         }
 
         int totalMarks = questions.stream().mapToInt(Question::getMarks).sum();
         String accessCode = generateAccessCode();
-        Quiz quiz = new Quiz(UUID.randomUUID().toString(), title, questions, totalMarks, accessCode, true);
-        return quizDAO.createQuiz(quiz);
-    }
 
+        Quiz quiz = Quiz.builder()
+                .title(title)
+                .questions(questions)
+                .totalMarks(totalMarks)
+                .accessCode(accessCode)
+                .modifiable(true)
+                .build();
+
+        return quizRepository.save(quiz);
+    }
 
     @Override
     public Optional<Quiz> getQuizById(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
-        }
-        return quizDAO.getQuizById(id);
+        return quizRepository.findById(id);
     }
 
     @Override
     public List<Quiz> getAllQuizzes() {
-        return quizDAO.getAllQuizzes();
+        return quizRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Quiz updateQuiz(Quiz quiz) {
-        if (quiz == null) {
-            throw new QuizException(ERROR_NULL_QUIZ_ID);
-        }
-        if (!quiz.isModifiable()) {
-            throw new QuizException(ERROR_EMPTY_QUIZ_MODIFY);
-        }
-        return quizDAO.updateQuiz(quiz);
+        return Optional.ofNullable(quiz)
+                .filter(Quiz::isModifiable)
+                .map(quizRepository::save)
+                .orElseThrow(() -> new QuizException(ERROR_EMPTY_QUIZ_MODIFY));
     }
 
+
     @Override
-    public boolean isDeleteQuiz(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
-        }
-        return quizDAO.isDeleteQuiz(id);
+    @Transactional
+    public boolean deleteQuiz(String id) {
+        return quizRepository.findById(id)
+                .map(quiz -> {
+                    quizRepository.delete(quiz);
+                    return true;
+                })
+                .orElse(false);
     }
 
     @Override
     public Optional<Quiz> getQuizByAccessCode(String accessCode) {
-        if (accessCode == null || accessCode.trim().isEmpty()) {
-            throw new QuizException(ERROR_EMPTY_ACCESS_CODE);
-        }
-        return quizDAO.getQuizByAccessCode(accessCode);
+        return quizRepository.findByAccessCode(accessCode);
     }
 
     @Override
+    @Transactional
     public void lockQuiz(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new QuizException(ERROR_EMPTY_QUIZ_ID);
-        }
-        Optional<Quiz> quizOpt = quizDAO.getQuizById(id);
-        if (quizOpt.isPresent()) {
-            Quiz quiz = quizOpt.get();
-            quiz.setModifiable(false);
-            quizDAO.updateQuiz(quiz);
-        } else {
-            throw new QuizException(ERROR_QUIZ_NOT_FOUND);
-        }
+        quizRepository.findById(id)
+                .ifPresent(quiz -> {
+                    quiz.setModifiable(false);
+                    quizRepository.save(quiz);
+                });
     }
 
     @Override
-    public int takeQuiz(String accessCode, Scanner scanner) {
-        Optional<Quiz> quizOpt = getQuizByAccessCode(accessCode);
-        if (quizOpt.isPresent()) {
-            Quiz quiz = quizOpt.get();
-            int score = 0;
-
-            for (Question question : quiz.getQuestions()) {
-                System.out.println(question.getTitle());
-                List<String> options = question.getOptions();
-                for (int i = 0; i < options.size(); i++) {
-                    System.out.println((i + 1) + ". " + options.get(i));
-                }
-
-                System.out.print("Enter your answer (1-" + options.size() + "): ");
-                int userAnswer = Integer.parseInt(scanner.nextLine()) - 1;
-
-                if (userAnswer == question.getCorrectOptionIndex()) {
-                    score += question.getMarks();
-                }
-            }
-
-            return score;
-        } else {
-            throw new QuizException(ERROR_INVALID_ACCESS_CODE);
-        }
+    public int takeQuiz(String accessCode, List<Integer> userAnswers) {
+        return quizRepository.findByAccessCode(accessCode)
+                .map(quiz -> {
+                    if (userAnswers.size() != quiz.getQuestions().size()) {
+                        throw new QuizException("Number of answers does not match number of questions");
+                    }
+                    return quiz.getQuestions().stream()
+                            .filter(question -> userAnswers.get(quiz.getQuestions().indexOf(question)) == question.getCorrectOptionIndex())
+                            .mapToInt(Question::getMarks)
+                            .sum();
+                })
+                .orElseThrow(() -> new QuizException(ERROR_QUIZ_NOT_FOUND));
     }
 
     private String generateAccessCode() {

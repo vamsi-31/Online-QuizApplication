@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface QuestionService {
-    Question createQuestion(String title, List<String> options, int correctOptionIndex, String difficulty, List<String> topics, int marks);
+    Question createQuestion(Question question);
     Optional<Question> getQuestionById(String id);
     List<Question> getAllQuestions();
     Question updateQuestion(Question question);
-    boolean isDeleteQuestion(String id);
+    boolean deleteQuestion(String id);
+    List<Question> getQuestionsByDifficulty(String difficulty);
+    List<Question> getQuestionsByTopic(String topic);
 }

@@ -1,6 +1,7 @@
 package com.onlinequiz.dao.impl;
 
 import com.onlinequiz.dao.QuizDAO;
+import com.onlinequiz.exception.NoQuizException;
 import com.onlinequiz.models.Quiz;
 import java.util.*;
 import org.springframework.stereotype.Repository;
@@ -26,8 +27,11 @@ public class QuizDAOImpl implements QuizDAO {
 
     @Override
     public Quiz updateQuiz(Quiz quiz) {
-        quizzes.put(quiz.getId(), quiz);
-        return quiz;
+        if (quizzes.containsKey(quiz.getId())) {
+            quizzes.put(quiz.getId(), quiz);
+            return quiz;
+        }
+        throw new NoQuizException("Quiz not found with id: " + quiz.getId());
     }
 
     @Override
